@@ -43,8 +43,10 @@ where the parameters are,
 Commands example:
 
 ``` 
-java -jar SemantifyingBPMN-0.0.1.jar --actors actorRolesSIMPLES.txt --tkdepend TKdependenciesSIMPLES.txt --tpt tptSIMPLES.txt --output-file-txt output --tkview tkviewSIMPLES.txt
-java -jar SemantifyingBPMN-0.0.1.jar --actors actorRolesSIMPLES.txt --tkdepend TKdependenciesSIMPLES.txt --tpt tptSIMPLES.txt --output-file-txt output
+java -jar SemantifyingBPMN-0.0.1.jar --actors actorRoles-POC1.txt --tkdepend TKdependencies-POC1.txt --tpt tpt-POC1.txt --tkview tkview-POC1.txt --output-file-bpmn BPMN-POC1.bpmn
+
+
+java -jar SemantifyingBPMN-0.0.1.jar --actors actorRoles-POC2.txt --tkdepend TKdependencies-POC2.txt --tpt tpt-POC2.txt --tkview tkview-POC2.txt --output-file-bpmn BPMN-POC2.bpmn
 ```
 
 
