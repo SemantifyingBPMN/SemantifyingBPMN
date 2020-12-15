@@ -1,0 +1,4 @@
+TK01;Soliciting budget change; A01 - SOC Department  ; A02 - SPFP ; PK01 ; [budget] has been changed
+TK02;Validating second-level budget change; A02 - SPFP ; A03 - SPFP Coordinator; PK02 ; [budget change] has been validated by second level
+TK03;Validating third-level budget change;A03 - SPFP Coordinator;A04 - Financial Department Director; PK03 ; [budget change] has been validated by third level
+TK04;Validating fourth-level budget change;A04 - Financial Department Director;A05 - Governing Board Representative; PK04 ; [budget change] has been validated by fourth level

@@ -1,0 +1,8 @@
+A01 - Financial Department Registrar;Autorization payment solicitator.
+A02 - Financial Department Expense Control;Executes the public administration payment requirements.
+A03 - Financial Department Coordinator;Validate the public administration payment requirements and solicits the payment authorization.
+A04 - Financial Department Director;Payment authorization for amount < 5k€.
+A05 - Governing Board Representative;Payment authorization for amount between >= 5k€ and < 30k€.	
+A06 - Governing Board;Payment authorization for amount >= 30k€.
+A07 - Financial Department Treasury;Executes previous checked and authorized payments. 
+

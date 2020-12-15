@@ -1,0 +1,6 @@
+A01 - SOC Department ; Budget transfer solicitor.   
+A02 - SPFP			;  Executor of the first validation and creator of a budget transfer proposal.
+A03 - SPFP Coordinator	;  Executor of the second validation of the budget transfer.  
+A04 - Financial Department Director		;   Executor of the third validation of the budget transfer. 
+A05 - Governing Board Representative	;   Executor of the fourth validation of the budget transfer.  
+

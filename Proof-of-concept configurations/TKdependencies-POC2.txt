@@ -1,0 +1,7 @@
+    ; TK01; TK02;TK03;TK04;TK05;TK06
+TK01;     ;     ;    ;    ;		;
+TK02;RaP  ;     ;    ;    ;		;    
+TK03;     ; RaE ;    ;    ;		;
+TK04;     ;     ;RaP ;    ;		;    
+TK05;     ;     ;RaP ;    ;		;
+TK06;RaE  ;     ;	 ;    ;		;

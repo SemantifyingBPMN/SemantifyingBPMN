@@ -1,0 +1,7 @@
+TransactionKind, view pattern definition
+TK01, HappyFlowAndDeclinationsAndRejections
+TK02, HappyFlowAndDeclinationsAndRejections
+TK03, HappyFlowAndDeclinationsAndRejections
+TK04, HappyFlowAndDeclinationsAndRejections
+TK05, HappyFlowAndDeclinationsAndRejections
+TK06, HappyFlowAndDeclinationsAndRejections

@@ -1,0 +1,8 @@
+TK01;Soliciting payment authorization; A01 - Financial Department Registrar  ; A02 - Financial Department Expense Control ; PK01 ; the [authorization] has been satisfied
+TK02;Executing the public administration payment requirements; A02 - Financial Department Expense Control ; A03 - Financial Department Coordinator; PK02 ;  the [payment requirement] has been validated
+TK03;Authorizing the payment <5k€;A03 - Financial Department Coordinator;A04 - Financial Department Director; PK03 ; the [payment] <5k€ has been authorized 
+TK04;Authorizing the payment >=5k€ and <30k€ ;A04 - Financial Department Director;A05 - Governing Board Representative; PK04 ; the [payment] >=5k€ e <30k€ has been authorized
+TK05;Authorizing the payment >=30k€;A04 - Financial Department Director;A06 - Governing Board; PK05; the [payment] >=30k€ has been authorized
+TK06;Paying;A02 - Financial Department Expense Control;A07 - Financial Department Treasury; PK06 ; the [payment] has been executed
+
+	
