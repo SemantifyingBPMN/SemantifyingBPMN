@@ -1371,7 +1371,7 @@ public class SemantifyingBPMN {
 		
 		String usage = "The usage of SemantifyingBPMN is the following.\n" +  
 				"SemantifyingBPMN-0.0.1 --actors <filename> --tpt <filename> --tkdepend <filename> --output-file-txt <filename> --output-file-bpmn <filename>\n"
-				+ "Credits: Sérgio Guerreiro (2020) (github: https://github.com/SemantifyingBPMN/SemantifyingBPMN)\n"
+				+ "Credits: Sï¿½rgio Guerreiro (2020) (github: https://github.com/SemantifyingBPMN/SemantifyingBPMN)\n"
 				+ "\n"	
 				+"where the parameters are,\n"
 				+"--actors: is a csv file with the list of actor roles and is mandatory. Composed of 2 fields, in each line, with actor role name and description:\n"

@@ -54,15 +54,31 @@ extends DEMOPattern{
 	    lane.addSequenceFlow(new BPMNSequenceFlow(gtw5 , end2));
 
 
-		MessageFlows.add(new BPMNMessageFlow(tk, act2, "request (C-act)", true) );
-		MessageFlows.add(new BPMNMessageFlow(tk, act4, "accept (C-act)",  true) );
-		MessageFlows.add(new BPMNMessageFlow(tk, act5, "reject (C-act)",  true) );
-		
-		MessageFlows.add(new BPMNMessageFlow(tk, evt1 ,"promise (C-act)", false) );
-		MessageFlows.add(new BPMNMessageFlow(tk, evt2 ,"decline (C-act)", false) );
-		MessageFlows.add(new BPMNMessageFlow(tk, evt3 ,"declare (C-act)", false) );
-		MessageFlows.add(new BPMNMessageFlow(tk, evt4 ,"stop (C-act)", false) );
-		
+	    if ( CheckMessageFlow(MessageFlows , tk) == false ) //no message flow exists
+	    {
+			MessageFlows.add(new BPMNMessageFlow(tk, act2, "request (C-act)", true) );
+			MessageFlows.add(new BPMNMessageFlow(tk, act4, "accept (C-act)",  true) );
+			MessageFlows.add(new BPMNMessageFlow(tk, act5, "reject (C-act)",  true) );
+			
+			MessageFlows.add(new BPMNMessageFlow(tk, evt1 ,"promise (C-act)", false) );
+			MessageFlows.add(new BPMNMessageFlow(tk, evt2 ,"decline (C-act)", false) );
+			MessageFlows.add(new BPMNMessageFlow(tk, evt3 ,"declare (C-act)", false) );
+			MessageFlows.add(new BPMNMessageFlow(tk, evt4 ,"stop (C-act)", false) );
+	    }
+	    else
+	    {
+		    updateMessageFlow(MessageFlows, tk, act2, "request (C-act)" );
+		    updateMessageFlow(MessageFlows, tk, act4, "accept (C-act)" );
+		    updateMessageFlow(MessageFlows, tk, act5, "reject (C-act)" );
+			
+		    updateMessageFlow(MessageFlows,tk, evt1 ,"promise (C-act)");
+		    updateMessageFlow(MessageFlows,tk, evt2 ,"decline (C-act)");
+		    updateMessageFlow(MessageFlows,tk, evt3 ,"declare (C-act)" );
+		    updateMessageFlow(MessageFlows,tk, evt4 ,"stop (C-act)" );
+
+
+
+	    }
 		
 		lane = SpecifyIncoming_Outgoing(lane);
 		  

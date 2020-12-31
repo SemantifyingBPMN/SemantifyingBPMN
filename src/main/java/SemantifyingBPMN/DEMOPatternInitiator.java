@@ -147,24 +147,49 @@ extends DEMOPattern{
 
 		  
 		  // ADD all the message flows 
- 			MessageFlows.add(new BPMNMessageFlow(tk, act7_2 , "request (C-act)", true) );
- 			MessageFlows.add(new BPMNMessageFlow(tk, act8_2 , "accept (C-act)",  true) );
- 			MessageFlows.add(new BPMNMessageFlow(tk, act1_1 ,"revoke accept (C-act)", true) );
- 			MessageFlows.add(new BPMNMessageFlow(tk, act2_1 ,"revoke request (C-act)", true) );
- 			MessageFlows.add(new BPMNMessageFlow(tk, act5_1 ,"refuse received (C-act)", true) );
- 			MessageFlows.add(new BPMNMessageFlow(tk, act4_2 ,"allow revoke declare (C-act)", true) );
- 			MessageFlows.add(new BPMNMessageFlow(tk, act6_2,"allow revoke promise (C-act)", true) );
- 			MessageFlows.add(new BPMNMessageFlow(tk, act6_3 ,"reject (C-act)", true) );
- 			
- 			MessageFlows.add(new BPMNMessageFlow(tk, evt7_1,"promise (C-act)", false) );
- 			MessageFlows.add(new BPMNMessageFlow(tk, evt8_1,"declare (C-act)", false) );
- 			MessageFlows.add(new BPMNMessageFlow(tk, evt2_2 ,"allow revoke request (C-act)", false) );
- 			MessageFlows.add(new BPMNMessageFlow(tk, evt1_2 ,"allow revoke accept (C-act)", false) );
- 			MessageFlows.add(new BPMNMessageFlow(tk, evt3_1,"refuse (C-act)", false) );
- 			MessageFlows.add(new BPMNMessageFlow(tk, evt4_1 ,"revoke declare (C-act)", false) );
- 			MessageFlows.add(new BPMNMessageFlow(tk, evt6_1 ,"revoke promise (C-act)", false) );
- 			MessageFlows.add(new BPMNMessageFlow(tk, evt9_1 ,"decline (C-act)", false) );
- 			MessageFlows.add(new BPMNMessageFlow(tk, evt9_2 ,"stop (C-act)", false) );
+ 		    if ( CheckMessageFlow(MessageFlows , tk) == false ) //no message flow exists
+ 		    {
+
+	 			MessageFlows.add(new BPMNMessageFlow(tk, act7_2 , "request (C-act)", true) );
+	 			MessageFlows.add(new BPMNMessageFlow(tk, act8_2 , "accept (C-act)",  true) );
+	 			MessageFlows.add(new BPMNMessageFlow(tk, act1_1 ,"revoke accept (C-act)", true) );
+	 			MessageFlows.add(new BPMNMessageFlow(tk, act2_1 ,"revoke request (C-act)", true) );
+	 			MessageFlows.add(new BPMNMessageFlow(tk, act5_1 ,"refuse received (C-act)", true) );
+	 			MessageFlows.add(new BPMNMessageFlow(tk, act4_2 ,"allow revoke declare (C-act)", true) );
+	 			MessageFlows.add(new BPMNMessageFlow(tk, act6_2,"allow revoke promise (C-act)", true) );
+	 			MessageFlows.add(new BPMNMessageFlow(tk, act6_3 ,"reject (C-act)", true) );
+	 			
+	 			MessageFlows.add(new BPMNMessageFlow(tk, evt7_1,"promise (C-act)", false) );
+	 			MessageFlows.add(new BPMNMessageFlow(tk, evt8_1,"declare (C-act)", false) );
+	 			MessageFlows.add(new BPMNMessageFlow(tk, evt2_2 ,"allow revoke request (C-act)", false) );
+	 			MessageFlows.add(new BPMNMessageFlow(tk, evt1_2 ,"allow revoke accept (C-act)", false) );
+	 			MessageFlows.add(new BPMNMessageFlow(tk, evt3_1,"refuse (C-act)", false) );
+	 			MessageFlows.add(new BPMNMessageFlow(tk, evt4_1 ,"revoke declare (C-act)", false) );
+	 			MessageFlows.add(new BPMNMessageFlow(tk, evt6_1 ,"revoke promise (C-act)", false) );
+	 			MessageFlows.add(new BPMNMessageFlow(tk, evt9_1 ,"decline (C-act)", false) );
+	 			MessageFlows.add(new BPMNMessageFlow(tk, evt9_2 ,"stop (C-act)", false) );
+ 		    }
+ 		    else
+ 		    {
+ 	 		    updateMessageFlow(MessageFlows, tk, act7_2 , "request (C-act)" );
+ 	 		    updateMessageFlow(MessageFlows, tk, act8_2 , "accept (C-act)");
+ 	 			updateMessageFlow(MessageFlows, tk, act1_1 ,"revoke accept (C-act)" );
+ 	 			updateMessageFlow(MessageFlows, tk, act2_1 ,"revoke request (C-act)" );
+ 	 			updateMessageFlow(MessageFlows, tk, act5_1 ,"refuse received (C-act)" );
+ 	 			updateMessageFlow(MessageFlows, tk, act4_2 ,"allow revoke declare (C-act)" );
+ 	 			updateMessageFlow(MessageFlows, tk, act6_2 ,"allow revoke promise (C-act)" );
+ 	 			updateMessageFlow(MessageFlows, tk, act6_3 ,"reject (C-act)" );
+ 	 			
+ 	 			updateMessageFlow(MessageFlows, tk, evt7_1,"promise (C-act)" );
+ 	 			updateMessageFlow(MessageFlows, tk, evt8_1,"declare (C-act)" );
+ 	 			updateMessageFlow(MessageFlows, tk, evt2_2,"allow revoke request (C-act)" );
+ 	 			updateMessageFlow(MessageFlows, tk, evt1_2,"allow revoke accept (C-act)" );
+ 	 			updateMessageFlow(MessageFlows, tk, evt3_1 ,"refuse (C-act)" );
+ 	 			updateMessageFlow(MessageFlows, tk, evt4_1 ,"revoke declare (C-act)" );
+ 	 			updateMessageFlow(MessageFlows, tk, evt6_1 ,"revoke promise (C-act)" );
+ 	 			updateMessageFlow(MessageFlows, tk, evt9_1 ,"decline (C-act)" );
+ 	 			updateMessageFlow(MessageFlows, tk, evt9_2 ,"stop (C-act)" );
+ 		    }
 		  
 		  lane = SpecifyIncoming_Outgoing(lane);
 		  

@@ -207,6 +207,8 @@ extends DEMOPattern{
 		  
 		  
 		  // ADD all the message flows 
+		  if ( CheckMessageFlow(MessageFlows , tk) == true ) // message flow exists
+		  {
  		    updateMessageFlow(MessageFlows, tk, evt1_1 , "request (C-act)" );
  		    updateMessageFlow(MessageFlows, tk, evt3_6 , "accept (C-act)");
  			updateMessageFlow(MessageFlows, tk, evt2_1 ,"revoke accept (C-act)" );
@@ -225,7 +227,31 @@ extends DEMOPattern{
  			updateMessageFlow(MessageFlows, tk, act3_3 ,"revoke promise (C-act)" );
  			updateMessageFlow(MessageFlows, tk, act2_1 ,"decline (C-act)" );
  			updateMessageFlow(MessageFlows, tk, act1_2 ,"stop (C-act)" );
+		  }
+		  else
+		  {
+ 			MessageFlows.add(new BPMNMessageFlow(tk, evt1_1 , "request (C-act)", false) );
+ 			MessageFlows.add(new BPMNMessageFlow(tk, evt3_6 , "accept (C-act)",  false) );
+ 			MessageFlows.add(new BPMNMessageFlow(tk, evt2_1 ,"revoke accept (C-act)", false) );
+ 			MessageFlows.add(new BPMNMessageFlow(tk, evt2_2 ,"revoke request (C-act)", false) );
+ 			MessageFlows.add(new BPMNMessageFlow(tk, evt2_3 ,"refuse received (C-act)", false) );
+ 			MessageFlows.add(new BPMNMessageFlow(tk, evt4_2 ,"allow revoke declare (C-act)", false) );
+ 			MessageFlows.add(new BPMNMessageFlow(tk, evt3_2,"allow revoke promise (C-act)", false) );
+ 			MessageFlows.add(new BPMNMessageFlow(tk, evt2_6 ,"reject (C-act)", false) );
  			
+ 			MessageFlows.add(new BPMNMessageFlow(tk, act3_4,"promise (C-act)", true) );
+ 			MessageFlows.add(new BPMNMessageFlow(tk, act3_6,"declare (C-act)", true) );
+ 			MessageFlows.add(new BPMNMessageFlow(tk, act7_1 ,"allow revoke request (C-act)", true) );
+ 			MessageFlows.add(new BPMNMessageFlow(tk, act6_1 ,"allow revoke accept (C-act)", true) );
+ 			MessageFlows.add(new BPMNMessageFlow(tk, act5_1,"refuse (C-act)", true) );
+ 			MessageFlows.add(new BPMNMessageFlow(tk, act4_1 ,"revoke declare (C-act)", true) );
+ 			MessageFlows.add(new BPMNMessageFlow(tk, act3_3 ,"revoke promise (C-act)", true) );
+ 			MessageFlows.add(new BPMNMessageFlow(tk, act2_1 ,"decline (C-act)", true) );
+ 			MessageFlows.add(new BPMNMessageFlow(tk, act1_2 ,"stop (C-act)", true) );
+			  
+			  
+			  
+		  }
  			
  			
 

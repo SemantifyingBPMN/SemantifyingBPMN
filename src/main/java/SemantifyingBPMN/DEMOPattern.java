@@ -9,6 +9,9 @@ public abstract class DEMOPattern {
 	  public abstract Lane CreateElements_and_Sequence(Lane lane , TransactionKind tk, ArrayList<BPMNMessageFlow> MessageFlows , ArrayList<String> deps);
 	  
 	  
+			
+		
+	  
 	  protected Lane SpecifyIncoming_Outgoing(Lane lane_received)
 	  {
 		  Lane lane = lane_received;
@@ -81,6 +84,21 @@ public abstract class DEMOPattern {
 				}
 			}			
 	 }
+	 
+
+	protected boolean CheckMessageFlow(ArrayList<BPMNMessageFlow> MessageFlows , TransactionKind tk) 
+	{
+		boolean return_value = false;
+		
+		// search transaction
+		for (BPMNMessageFlow mf:MessageFlows)
+		{
+			if ( mf.getTransaction_origin() == tk) return (true);
+		}
+		return return_value;
+	};
+
+	 
 	 
 	 public boolean CheckPrevious(ArrayList<String> previous)
 	 {

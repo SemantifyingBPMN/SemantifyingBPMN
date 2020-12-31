@@ -104,16 +104,30 @@ extends DEMOPattern{
 	    
 		
 	    
-		
-	    updateMessageFlow(MessageFlows, tk, strt, "request (C-act)" );
-	    updateMessageFlow(MessageFlows, tk, evt1, "accept (C-act)" );
-	    updateMessageFlow(MessageFlows, tk, evt2, "reject (C-act)" );
-		
-	    updateMessageFlow(MessageFlows,tk, act2 ,"promise (C-act)");
-	    updateMessageFlow(MessageFlows,tk, act6 ,"decline (C-act)");
-	    updateMessageFlow(MessageFlows,tk, act4 ,"declare (C-act)" );
-	    updateMessageFlow(MessageFlows,tk, act5 ,"stop (C-act)" );
-
+	    if ( CheckMessageFlow(MessageFlows , tk) == true ) // message flow exists
+	    {		
+		    updateMessageFlow(MessageFlows, tk, strt, "request (C-act)" );
+		    updateMessageFlow(MessageFlows, tk, evt1, "accept (C-act)" );
+		    updateMessageFlow(MessageFlows, tk, evt2, "reject (C-act)" );
+			
+		    updateMessageFlow(MessageFlows,tk, act2 ,"promise (C-act)");
+		    updateMessageFlow(MessageFlows,tk, act6 ,"decline (C-act)");
+		    updateMessageFlow(MessageFlows,tk, act4 ,"declare (C-act)" );
+		    updateMessageFlow(MessageFlows,tk, act5 ,"stop (C-act)" );
+	    }
+	    else
+	    {
+			MessageFlows.add(new BPMNMessageFlow(tk, strt, "request (C-act)", false) );
+			MessageFlows.add(new BPMNMessageFlow(tk, evt1, "accept (C-act)",  false) );
+			MessageFlows.add(new BPMNMessageFlow(tk, evt2, "reject (C-act)",  false) );
+			
+			MessageFlows.add(new BPMNMessageFlow(tk, act2 ,"promise (C-act)", true) );
+			MessageFlows.add(new BPMNMessageFlow(tk, act6 ,"decline (C-act)", true) );
+			MessageFlows.add(new BPMNMessageFlow(tk, act4 ,"declare (C-act)", true) );
+			MessageFlows.add(new BPMNMessageFlow(tk, act5 ,"stop (C-act)", true) );
+	
+	    	
+	    }
 
 		
 		
