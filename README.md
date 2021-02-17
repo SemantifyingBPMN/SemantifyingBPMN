@@ -9,12 +9,13 @@ Firstly, verify if JAVA 8 is available, on your linux environment, using the com
 
 Then, to execute the generator of metro usage messages use the following command:
 
-    java -jar SemantifyingBPMN-0.0.1.jar
+    java -jar SemantifyingBPMN-0.0.2.jar
 
 The following options are available:
 ```
-SemantifyingBPMN-0.0.1 --actors <filename> --tpt <filename> --tkdepend <filename> --output-file-txt <filename> --output-file-bpmn <filename>
-Credits: Sérgio Guerreiro (2020) (github: https://github.com/SemantifyingBPMN/SemantifyingBPMN)
+The usage of SemantifyingBPMN is the following.
+SemantifyingBPMN-0.0.2 --actors <filename> --tpt <filename> --tkdepend <filename> --output-file-txt <filename> --output-file-bpmn <filename>
+Credits: Sérgio Guerreiro (2021) (github: https://github.com/SemantifyingBPMN/SemantifyingBPMN)
 
 where the parameters are,
 --actors: is a csv file with the list of actor roles and is mandatory. Composed of 2 fields, in each line, with actor role name and description:
@@ -29,12 +30,15 @@ where the parameters are,
         TK03 ;       ; RaE   ;      ;
         TK04 ;       ;       ; RaE  ;
  )
---tkview: is a csv file with view definition for each transaction per line, acceptable values are: HappyFlow | HappyFlowAndDeclinationsAndRejections | Complete. Optional.
+--tkview: is a mandatory csv file with view definition for each transaction per line, acceptable values are: HappyFlow | HappyFlowAndDeclinationsAndRejections | Complete | Custom. Default value is HappyFlow.
+          The Custom value accepts extra detail for each transaction step, even empty ones.
  (e.g.
+                TransactionKind  ; View   ; Request ; Promise ; Execute ; Declare ; Accept
                 TK01 ; HappyFlow
                 TK02 ; HappyFlowAndDeclinationsAndRejections
-                TK03 ; HappyFlowAndDeclinationsAndRejections
+                TK03 ; Custom    ; Pedido ;         ; Executa ; Declara ;         ;
                 TK04 ; Complete
+                TK05 ;
  )
 --output-file-txt: is a file to store the model in txt format. Optional.
 --output-file-bpmn: is a file to store the BPMN model. Optional.
