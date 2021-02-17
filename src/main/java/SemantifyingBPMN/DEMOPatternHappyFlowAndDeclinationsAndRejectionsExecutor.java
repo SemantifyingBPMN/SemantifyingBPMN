@@ -8,7 +8,7 @@ public class DEMOPatternHappyFlowAndDeclinationsAndRejectionsExecutor
 extends DEMOPattern{
 
 	
-	public Lane CreateElements_and_Sequence(Lane lane , TransactionKind tk, ArrayList<BPMNMessageFlow> MessageFlows , ArrayList<String> deps) {
+	public Lane CreateElements_and_Sequence(Lane lane , TransactionKind tk, ArrayList<BPMNMessageFlow> MessageFlows , ArrayList<String> deps , PatternView view) {
 		
 		 boolean RaP = CheckPreviousFixed(deps, new String("RaP"));  
 		 boolean RaE = CheckPreviousFixed(deps, new String("RaE"));  

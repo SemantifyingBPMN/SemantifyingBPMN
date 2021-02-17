@@ -1,0 +1,3 @@
+A01 - actor role1 ; Budget transfer solicitor.   
+A02 - actor role2 ;  Executor of the first validation and creator of a budget transfer proposal.
+A03 - actor role3 ;  Executor of the first validation and creator of a budget transfer proposal.

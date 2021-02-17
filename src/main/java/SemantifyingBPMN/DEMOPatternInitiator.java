@@ -7,7 +7,7 @@ import javax.xml.namespace.QName;
 public class DEMOPatternInitiator 
 extends DEMOPattern{
 
-   	  public Lane CreateElements_and_Sequence(Lane lane , TransactionKind tk, ArrayList<BPMNMessageFlow> MessageFlows , ArrayList<String> deps)
+   	  public Lane CreateElements_and_Sequence(Lane lane , TransactionKind tk, ArrayList<BPMNMessageFlow> MessageFlows , ArrayList<String> deps , PatternView view )
    	  {
    		  // level 1
    		  QName evt1_1 = lane.addElement(new Event  ( EventType.IntermediateMessageCatchEvent, "revoke accept triggered" , "revoke accept triggered" , 1));

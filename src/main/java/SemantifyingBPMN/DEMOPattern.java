@@ -6,8 +6,8 @@ import javax.xml.namespace.QName;
 
 public abstract class DEMOPattern {
 
-	  public abstract Lane CreateElements_and_Sequence(Lane lane , TransactionKind tk, ArrayList<BPMNMessageFlow> MessageFlows , ArrayList<String> deps);
 	  
+	  public abstract Lane CreateElements_and_Sequence(Lane lane , TransactionKind tk, ArrayList<BPMNMessageFlow> MessageFlows , ArrayList<String> deps , PatternView view);
 	  
 			
 		

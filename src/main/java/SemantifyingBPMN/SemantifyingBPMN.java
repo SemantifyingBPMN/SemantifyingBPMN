@@ -144,7 +144,7 @@ public class SemantifyingBPMN {
 		catch (Exception e) 	{ 	e.printStackTrace(); 	}
 		System.out.println(	"-------------------*-----------------------------" +
 				" Actors \n" + Actors.toString() +
-				"-------------------*-----------------------------");
+				"\n-------------------*-----------------------------");
 		
 		
 		
@@ -159,9 +159,20 @@ public class SemantifyingBPMN {
 			String read_tmpView = new String("");
 			int count_line = 0;	
 			TransactionKind tknew;
+			ArrayList<String> TKStepsDefinedInTkView = new ArrayList<String>();
 
 			//Read header from ficheiroview
-			if (ficheiroView != null) if  (ficheiroView.hasNextLine()) read_tmp = ficheiroView.nextLine();
+			if (ficheiroView != null) 
+			{
+				if  (ficheiroView.hasNextLine()) 
+				{					
+					read_tmp = ficheiroView.nextLine();
+					String[] tokens = read_tmp.split(";");
+					for (int Tokenid = 2 ; Tokenid < tokens.length ; Tokenid++)										
+						TKStepsDefinedInTkView.add(tokens[Tokenid].trim());
+				}
+				else System.out.println("WARNING: tkview file without header.");
+			}
 			while (ficheiro.hasNextLine())
 			{
 				count_line++;		
@@ -174,12 +185,20 @@ public class SemantifyingBPMN {
 					String[] tokensView;
 					if (ficheiroView != null)
 					{
-						tokensView = read_tmpView.split(",");						
-						TKPatternViews.add( new PatternView( tokensView[0].trim(), tokensView[1].trim() ) );						
+						tokensView = read_tmpView.split(";");
+						
+						if (tokensView[1].trim().compareTo("Custom") != 0)												
+							TKPatternViews.add( new PatternView( tokensView[0].trim(), tokensView[1].trim() ) );
+						else
+						{
+							PatternView CustomView = new PatternView(tokensView[0].trim(), tokensView[1].trim());
+							for (int Tokenid = 2 ; Tokenid < tokensView.length ; Tokenid++)
+							{
+								CustomView.addTKStep( TKStepsDefinedInTkView.get(Tokenid-2) , tokensView[Tokenid].trim() );
+							}							
+							TKPatternViews.add(CustomView);
+						}
 					}
-
-					
-					
 					
 					tknew = new TransactionKind(
 								tokens[0].trim() , 
@@ -195,11 +214,16 @@ public class SemantifyingBPMN {
 			}
 			System.out.println ("Reading input file ended. " + count_line + " lines read. With " + TPT.size() + " transaction kinds.");
 			ficheiro.close();
+			ficheiroView.close();
 		}
 		catch (Exception e) 	{ 	e.printStackTrace(); 	}
 		System.out.println(	"-------------------*-----------------------------" +
 				" TPT \n" + TPT.toString() +
-				"-------------------*-----------------------------");
+				"\n-------------------*-----------------------------");
+	
+		System.out.println(	"-------------------*-----------------------------" +
+				" TKVIEW \n" + TKPatternViews.toString() +
+				"\n-------------------*-----------------------------");
 		
 		
 		
@@ -266,7 +290,7 @@ public class SemantifyingBPMN {
 		catch (Exception e) 	{ 	e.printStackTrace(); 	}
 		System.out.println(	"-------------------*-----------------------------" +
 				" TKDependencies \n" + TKDependencies.toString() +
-				"-------------------*-----------------------------");
+				"\n-------------------*-----------------------------");
 
 	}
 
@@ -327,12 +351,19 @@ public class SemantifyingBPMN {
 							switch (TKpatternName.getPattern())
 							{
 							case "HappyFlow":
-								 	newLane = (new DEMOPatternHappyFlowInitiator()).CreateElements_and_Sequence(newLane , tk2StoreLane , MessageFlows , TKDependencies.get(tk2StoreLane.getName())  );
+								 	newLane = (new DEMOPatternHappyFlowInitiator()).CreateElements_and_Sequence(newLane , tk2StoreLane , MessageFlows , TKDependencies.get(tk2StoreLane.getName()) , TKpatternName );
 									break;
 							case "HappyFlowAndDeclinationsAndRejections":
-									newLane = (new DEMOPatternHappyFlowAndDeclinationsAndRejectionsInitiator()).CreateElements_and_Sequence(newLane , tk2StoreLane , MessageFlows , TKDependencies.get(tk2StoreLane.getName())  );
+									newLane = (new DEMOPatternHappyFlowAndDeclinationsAndRejectionsInitiator()).CreateElements_and_Sequence(newLane , tk2StoreLane , MessageFlows , TKDependencies.get(tk2StoreLane.getName()) , TKpatternName );
 									break;
-							default: newLane = (new DEMOPatternInitiator()).CreateElements_and_Sequence(newLane , tk2StoreLane , MessageFlows , TKDependencies.get(tk2StoreLane.getName())  ); 
+							case "Custom": 
+									newLane = (new DEMOPatternCustomInitiator()).CreateElements_and_Sequence(newLane , tk2StoreLane , MessageFlows , TKDependencies.get(tk2StoreLane.getName()) , TKpatternName );
+									break;
+							case "Complete":		
+									newLane = (new DEMOPatternInitiator()).CreateElements_and_Sequence(newLane , tk2StoreLane , MessageFlows , TKDependencies.get(tk2StoreLane.getName()) , TKpatternName );
+									break;
+							default:
+							 		newLane = (new DEMOPatternHappyFlowInitiator()).CreateElements_and_Sequence(newLane , tk2StoreLane , MessageFlows , TKDependencies.get(tk2StoreLane.getName()) , TKpatternName );
 							}
 						}
 					}					
@@ -349,12 +380,19 @@ public class SemantifyingBPMN {
 							switch (TKpatternName.getPattern())
 							{
 							case "HappyFlow":
-								 	newLane = (new DEMOPatternHappyFlowExecutor()).CreateElements_and_Sequence(newLane , tk2StoreLane , MessageFlows , TKDependenciesT.get(tk2StoreLane.getName()) );
+								 	newLane = (new DEMOPatternHappyFlowExecutor()).CreateElements_and_Sequence(newLane , tk2StoreLane , MessageFlows , TKDependenciesT.get(tk2StoreLane.getName()) , TKpatternName );
 									break;
 							case "HappyFlowAndDeclinationsAndRejections":
-									newLane = (new DEMOPatternHappyFlowAndDeclinationsAndRejectionsExecutor()).CreateElements_and_Sequence(newLane , tk2StoreLane , MessageFlows , TKDependenciesT.get(tk2StoreLane.getName()) );
+									newLane = (new DEMOPatternHappyFlowAndDeclinationsAndRejectionsExecutor()).CreateElements_and_Sequence(newLane , tk2StoreLane , MessageFlows , TKDependenciesT.get(tk2StoreLane.getName()) , TKpatternName );
 									break;
-							default: newLane = (new DEMOPatternExecutor()).CreateElements_and_Sequence(newLane , tk2StoreLane , MessageFlows , TKDependenciesT.get(tk2StoreLane.getName()) );
+							case "Custom": 
+									newLane = (new DEMOPatternCustomExecutor()).CreateElements_and_Sequence(newLane , tk2StoreLane , MessageFlows , TKDependenciesT.get(tk2StoreLane.getName()) , TKpatternName);
+									break;
+							case "Complete":									
+									newLane = (new DEMOPatternExecutor()).CreateElements_and_Sequence(newLane , tk2StoreLane , MessageFlows , TKDependenciesT.get(tk2StoreLane.getName()) , TKpatternName);
+									break;
+							default:
+									newLane = (new DEMOPatternHappyFlowExecutor()).CreateElements_and_Sequence(newLane , tk2StoreLane , MessageFlows , TKDependenciesT.get(tk2StoreLane.getName()) , TKpatternName);
 							}
 						}
 					}		
@@ -1370,8 +1408,8 @@ public class SemantifyingBPMN {
 	public static void main(String[] args) {
 		
 		String usage = "The usage of SemantifyingBPMN is the following.\n" +  
-				"SemantifyingBPMN-0.0.1 --actors <filename> --tpt <filename> --tkdepend <filename> --output-file-txt <filename> --output-file-bpmn <filename>\n"
-				+ "Credits: Sï¿½rgio Guerreiro (2020) (github: https://github.com/SemantifyingBPMN/SemantifyingBPMN)\n"
+				"SemantifyingBPMN-0.0.2 --actors <filename> --tpt <filename> --tkdepend <filename> --output-file-txt <filename> --output-file-bpmn <filename>\n"
+				+ "Credits: Sérgio Guerreiro (2021) (github: https://github.com/SemantifyingBPMN/SemantifyingBPMN)\n"
 				+ "\n"	
 				+"where the parameters are,\n"
 				+"--actors: is a csv file with the list of actor roles and is mandatory. Composed of 2 fields, in each line, with actor role name and description:\n"
@@ -1386,12 +1424,15 @@ public class SemantifyingBPMN {
 				+"        TK03 ;       ; RaE   ;      ;\n"
 				+"        TK04 ;       ;       ; RaE  ;\n"  
 				+" )\n"
-				+"--tkview: is a csv file with view definition for each transaction per line, acceptable values are: HappyFlow | HappyFlowAndDeclinationsAndRejections | Complete. Optional.\n"
+				+"--tkview: is a mandatory csv file with view definition for each transaction per line, acceptable values are: HappyFlow | HappyFlowAndDeclinationsAndRejections | Complete | Custom. Default value is HappyFlow.\n"
+				+"          The Custom value accepts extra detail for each transaction step, even empty ones.\n"
 				+" (e.g.\n"
+				+ "		TransactionKind	 ; View   ; Request ; Promise ; Execute ; Declare ; Accept \n"					
 				+"		TK01 ; HappyFlow\n"
 				+"		TK02 ; HappyFlowAndDeclinationsAndRejections\n"
-				+"		TK03 ; HappyFlowAndDeclinationsAndRejections\n"
+				+"		TK03 ; Custom    ; Pedido ;         ; Executa ; Declara ;         ;	 \n"
 				+"		TK04 ; Complete \n"
+				+"		TK05 ;  \n"
 				+" )\n"
 				+"--output-file-txt: is a file to store the model in txt format. Optional.\n"
 				+"--output-file-bpmn: is a file to store the BPMN model. Optional.\n";

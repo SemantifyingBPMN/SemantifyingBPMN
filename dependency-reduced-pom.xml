@@ -14,7 +14,7 @@
             <manifest>
               <addClasspath>true</addClasspath>
               <classpathPrefix>lib/</classpathPrefix>
-              <mainClass>demobpmn.DEMO2BPMN</mainClass>
+              <mainClass>SemantifyingBPMN.SemantifyingBPMN</mainClass>
             </manifest>
           </archive>
         </configuration>

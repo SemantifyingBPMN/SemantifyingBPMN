@@ -1,0 +1,3 @@
+TransactionKind	 ; View   ; Request 	    ; Promise ; Execute ; Declare 	      ; Accept
+TK01 ; 		       Custom ; pede validacao  ;         ; valida  ; passa processo  ;    
+TK02 ; HappyFlow

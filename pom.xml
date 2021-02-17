@@ -2,8 +2,9 @@
   <modelVersion>4.0.0</modelVersion>
   <groupId>org.SemantifyingBPMN</groupId>
   <artifactId>SemantifyingBPMN</artifactId>
-  <version>0.0.1</version>
+  <version>0.0.1-SNAPSHOT</version>
   
+    
   <build>
   <plugins>
     <plugin>
@@ -44,8 +45,6 @@
     <version>3.2.1</version>
 </dependency>
 </dependencies>
-  
-  
   
   
 </project>

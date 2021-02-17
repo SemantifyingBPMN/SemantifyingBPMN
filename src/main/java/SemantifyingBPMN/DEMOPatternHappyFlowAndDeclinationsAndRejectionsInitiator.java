@@ -8,7 +8,7 @@ public class DEMOPatternHappyFlowAndDeclinationsAndRejectionsInitiator
 extends DEMOPattern{
 
 	
-	public Lane CreateElements_and_Sequence(Lane lane , TransactionKind tk, ArrayList<BPMNMessageFlow> MessageFlows , ArrayList<String> deps) {
+	public Lane CreateElements_and_Sequence(Lane lane , TransactionKind tk, ArrayList<BPMNMessageFlow> MessageFlows , ArrayList<String> deps , PatternView view ) {
 		
 	    QName strt = lane.addElement(new Event  ( EventType.Start, "INITIAL" , "INITIAL" , 2));
 	    QName act1 = lane.addElement(new Activity  ( ActivityType.ManualTask, "Decide the type of product to order" , "Decide the type of product to order" , 2));
