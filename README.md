@@ -33,24 +33,21 @@ where the parameters are,
 --tkview: is a mandatory csv file with view definition for each transaction per line, acceptable values are: HappyFlow | HappyFlowAndDeclinationsAndRejections | Complete | Custom. Default value is HappyFlow.
           The Custom value accepts extra detail for each transaction step, even empty ones.
  (e.g.
-                TransactionKind  ; View   ; Request ; Promise ; Execute ; Declare ; Accept
-                            TK01 ; HappyFlow
-                            TK02 ; HappyFlowAndDeclinationsAndRejections
-                            TK03 ; Custom ; Pedido ;         ; Executa ; Declara ;         
-                            TK04 ; Complete
-                            TK05 ;
+      TransactionKind  ; View   ; Request Decision ; Request ; Promise Decision ; Promise ; Execute ; Declare        ; Decision Accept ; Accept
+                  TK01 ; HappyFlow
+                  TK02 ; HappyFlowAndDeclinationsAndRejections
+                  TK03 ; Custom ;                  ; Pedido  ;                  ;         ; Executa ; Passa processo ; Valida resultado;
+                  TK04 ; Complete
+                  TK05 ;
  )
 --output-file-txt: is a file to store the model in txt format. Optional.
 --output-file-bpmn: is a file to store the BPMN model. Optional.
 ```
 
-Commands example:
+Command example:
 
 ``` 
-java -jar SemantifyingBPMN-0.0.1.jar --actors actorRoles-POC1.txt --tkdepend TKdependencies-POC1.txt --tpt tpt-POC1.txt --tkview tkview-POC1.txt --output-file-bpmn BPMN-POC1.bpmn
-
-
-java -jar SemantifyingBPMN-0.0.1.jar --actors actorRoles-POC2.txt --tkdepend TKdependencies-POC2.txt --tpt tpt-POC2.txt --tkview tkview-POC2.txt --output-file-bpmn BPMN-POC2.bpmn
+java -jar .\SemantifyingBPMN-0.0.2.jar --actors .\actorRoles-2021-01-18.txt --tpt .\tpt-2021-01-18.txt --tkdepend .\TKdependencies-2021-01-18.txt --output-file-bpmn collab.bpmn --tkview .\tkview-2021-01-18.txt
 ```
 
 

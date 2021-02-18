@@ -20,7 +20,10 @@ extends DEMOPattern{
 		 boolean RaD = CheckPreviousFixed(deps, new String("RaD"));
 		  		 		
 		bpmn_elements[0] = lane.addElement(new Event  ( EventType.Start, "INITIAL" , "INITIAL" , 1));
-		bpmn_elements[1] = lane.addElement(new Activity  ( ActivityType.ManualTask, "Verify if execute product is possible" , "Verify if execute product is possible" , 1));
+		
+		String PromiseDecisionLabel = view.getTKStepValue("Promise Decision");
+	    if ( PromiseDecisionLabel.compareTo("") != 0 )
+	    	bpmn_elements[1] = lane.addElement(new Activity  ( ActivityType.ManualTask, PromiseDecisionLabel , PromiseDecisionLabel , 1));
 	    
 	    String PromiseLabel = view.getTKStepValue("Promise");
 	    if ( PromiseLabel.compareTo("") != 0 )

@@ -17,10 +17,11 @@ extends DEMOPattern{
 		QName[] bpmn_elements = {  null, null, null, null, null, null, null, null  };
 		
 		
-
-
 		bpmn_elements[0] = lane.addElement(new Event  ( EventType.Start, "INITIAL" , "INITIAL" , 1));
-		bpmn_elements[1] = lane.addElement(new Activity  ( ActivityType.ManualTask, "Decide the type of product to order" , "Decide the type of product to order" , 1));
+		
+		String RequestDecisionLabel = view.getTKStepValue("Request Decision");
+	    if ( RequestDecisionLabel.compareTo("") != 0 )
+	    	bpmn_elements[1] = lane.addElement(new Activity  ( ActivityType.ManualTask, RequestDecisionLabel , RequestDecisionLabel , 1));
 	    
 	    String RequestLabel = view.getTKStepValue("Request");
 	    if ( RequestLabel.compareTo("") != 0 )
@@ -41,7 +42,9 @@ extends DEMOPattern{
 			bpmn_elements[4] = lane.addElement(new Event  ( EventType.IntermediateMessageCatchEvent, DeclareLabel , DeclareLabel , 1));
 		}
 		
-		bpmn_elements[5] = lane.addElement(new Activity  ( ActivityType.ManualTask, "Check product" , "Check product" , 1));
+		String AcceptDecisionLabel = view.getTKStepValue("Decision Accept");
+	    if ( AcceptDecisionLabel.compareTo("") != 0 )
+	    	bpmn_elements[5] = lane.addElement(new Activity  ( ActivityType.ManualTask, AcceptDecisionLabel , AcceptDecisionLabel , 1));
 	    
 	    String AcceptLabel = view.getTKStepValue("Accept");
 	    if ( AcceptLabel.compareTo("") != 0 )
@@ -49,6 +52,7 @@ extends DEMOPattern{
 	    
 	    bpmn_elements[7] = lane.addElement(new Event  ( EventType.End, "END" , "END" , 1));
 
+	    
 	    // Connect elements
 		int source = -1;
 		for (int idx = 0 ; idx < bpmn_elements.length ; idx++)
