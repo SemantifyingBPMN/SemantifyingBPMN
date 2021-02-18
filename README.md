@@ -36,7 +36,7 @@ where the parameters are,
                 TransactionKind  ; View   ; Request ; Promise ; Execute ; Declare ; Accept
                             TK01 ; HappyFlow
                             TK02 ; HappyFlowAndDeclinationsAndRejections
-                            TK03 ; Custom ; Pedido ;         ; Executa ; Declara ;         ;
+                            TK03 ; Custom ; Pedido ;         ; Executa ; Declara ;         
                             TK04 ; Complete
                             TK05 ;
  )
