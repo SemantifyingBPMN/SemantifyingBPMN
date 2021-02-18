@@ -34,11 +34,11 @@ where the parameters are,
           The Custom value accepts extra detail for each transaction step, even empty ones.
  (e.g.
                 TransactionKind  ; View   ; Request ; Promise ; Execute ; Declare ; Accept
-                TK01 ; HappyFlow
-                TK02 ; HappyFlowAndDeclinationsAndRejections
-                TK03 ; Custom    ; Pedido ;         ; Executa ; Declara ;         ;
-                TK04 ; Complete
-                TK05 ;
+                            TK01 ; HappyFlow
+                            TK02 ; HappyFlowAndDeclinationsAndRejections
+                            TK03 ; Custom ; Pedido ;         ; Executa ; Declara ;         ;
+                            TK04 ; Complete
+                            TK05 ;
  )
 --output-file-txt: is a file to store the model in txt format. Optional.
 --output-file-bpmn: is a file to store the BPMN model. Optional.
