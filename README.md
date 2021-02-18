@@ -7,7 +7,7 @@ Firstly, verify if JAVA 8 is available, on your linux environment, using the com
 
     java -version
 
-Then, to execute the generator of metro usage messages use the following command:
+Then, to execute the semantify BPMN use the following command:
 
     java -jar SemantifyingBPMN-0.0.2.jar
 
