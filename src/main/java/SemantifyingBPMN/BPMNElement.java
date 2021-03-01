@@ -20,6 +20,7 @@ public abstract class BPMNElement {
 	public double Offset = 0;
 	
 	public abstract String getName();
+	public abstract void setName(String Name);
 	public abstract String getDescription();
 	public abstract String getTypeS();
 	public abstract int getType();

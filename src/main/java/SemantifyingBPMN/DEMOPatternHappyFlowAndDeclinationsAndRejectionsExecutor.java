@@ -18,6 +18,7 @@ extends DEMOPattern{
 		 QName DIVERGE_RaP = null , CONVERGE_RaP = null,
 			   DIVERGE_RaE = null , CONVERGE_RaE = null,
 			   DIVERGE_RaD = null , CONVERGE_RaD = null;
+		 
 		
 		 QName strt = lane.addElement(new Event  ( EventType.Start, "INITIAL" , "INITIAL" , 3));
 	     QName act1 = lane.addElement(new Activity  ( ActivityType.ManualTask, "Verify if execute product is possible" , "Verify if execute product is possible" , 3));

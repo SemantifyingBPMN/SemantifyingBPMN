@@ -120,5 +120,34 @@ public abstract class DEMOPattern {
 		 return (result);
 	 }	 
 	  
- 
+
+	 
+	 
+	 protected void AddFlow2SemantifiedElements(ArrayList<SemantifiedElement> semantified_elements, QName source, QName destination) 
+	 {
+		 int sourceIdx = FindQNameInSemantifiedElements(source , semantified_elements);
+		 int destinationIdx = FindQNameInSemantifiedElements(destination , semantified_elements);	
+			
+		 semantified_elements.get(sourceIdx).AddReferenced_semantified_element(destinationIdx);
+	 }
+
+
+
+
+	protected int FindQNameInSemantifiedElements(QName QName_elem, ArrayList<SemantifiedElement> elem_list) 
+	{		
+		for (int idx = 0 ; idx < elem_list.size() ; idx++)
+		{
+			SemantifiedElement elem = elem_list.get(idx);
+			if (elem.getSemantified_element() == QName_elem) return(idx); 
+		}
+		
+		return -1;
+	}
+
 }
+
+
+
+
+

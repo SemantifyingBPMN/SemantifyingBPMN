@@ -2,6 +2,8 @@ package SemantifyingBPMN;
 
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.Iterator;
+import java.util.Set;
 
 import javax.xml.namespace.QName;
 
@@ -39,7 +41,6 @@ public class Lane {
 	public void setN_levels(int n_levels) {		
 		this.n_levels = n_levels;
 	}
-
 
 	public void UpdateBPMNSequenceFlowsPositions(Pool pool_t)
 	{		
@@ -120,6 +121,9 @@ public class Lane {
 	public void OrganizeBPMNElementsByLevel()
 	{
 		
+		
+		int level_max = 0;
+		
 		for (BPMNElement element:BPMNElements)
 		{
 			if ( OrganizedBPMNElementByLevel.containsKey(element.getLevel()) == true)
@@ -132,13 +136,18 @@ public class Lane {
 				new_element.add(element);
 				OrganizedBPMNElementByLevel.put(element.getLevel() , new_element );
 			}
+			
+			if (level_max < element.getLevel()) level_max = element.getLevel();
+			
 		}
 
 		
 		System.out.println(getOrganizedBPMNElementByLevel().toString());
 		
 		// set number of level of this lane
-		setN_levels(OrganizedBPMNElementByLevel.size());
+		//setN_levels(OrganizedBPMNElementByLevel.size());
+			// by level maximum due to optional provision of elements
+		setN_levels(level_max);
 		
 	}
 	
@@ -285,6 +294,20 @@ public class Lane {
 
 	public void setBPMNAssociations(ArrayList<BPMNAssociation> bPMNAssociations) {
 		BPMNAssociations = bPMNAssociations;
+	}
+
+
+	public void removeElement(QName semantified_element) {
+
+		BPMNElement Element2Remove = null;
+	    
+		for (BPMNElement element:BPMNElements)
+		{
+			if (element.getQname_BPMNElement() == semantified_element) Element2Remove = element;
+		}
+		
+		if (Element2Remove != null) BPMNElements.remove(Element2Remove);
+		
 	}
 	
 	

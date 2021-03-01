@@ -187,7 +187,7 @@ public class SemantifyingBPMN {
 					{
 						tokensView = read_tmpView.split(";");
 						
-						if (tokensView[1].trim().compareTo("Custom") != 0)												
+						if (tokensView[1].trim().substring(0, 6).compareTo("Custom") != 0)												
 							TKPatternViews.add( new PatternView( tokensView[0].trim(), tokensView[1].trim() ) );
 						else
 						{
@@ -359,6 +359,9 @@ public class SemantifyingBPMN {
 							case "Custom": 
 									newLane = (new DEMOPatternCustomInitiator()).CreateElements_and_Sequence(newLane , tk2StoreLane , MessageFlows , TKDependencies.get(tk2StoreLane.getName()) , TKpatternName );
 									break;
+							case "CustomHappyFlowOnly":
+									newLane = (new DEMOPatternCustomInitiatorHappyFlowOnly()).CreateElements_and_Sequence(newLane , tk2StoreLane , MessageFlows , TKDependencies.get(tk2StoreLane.getName()) , TKpatternName );
+									break;								
 							case "Complete":		
 									newLane = (new DEMOPatternInitiator()).CreateElements_and_Sequence(newLane , tk2StoreLane , MessageFlows , TKDependencies.get(tk2StoreLane.getName()) , TKpatternName );
 									break;
@@ -388,6 +391,9 @@ public class SemantifyingBPMN {
 							case "Custom": 
 									newLane = (new DEMOPatternCustomExecutor()).CreateElements_and_Sequence(newLane , tk2StoreLane , MessageFlows , TKDependenciesT.get(tk2StoreLane.getName()) , TKpatternName);
 									break;
+							case "CustomHappyFlowOnly":
+									newLane = (new DEMOPatternCustomExecutorHappyFlowOnly()).CreateElements_and_Sequence(newLane , tk2StoreLane , MessageFlows , TKDependencies.get(tk2StoreLane.getName()) , TKpatternName );
+									break;																	
 							case "Complete":									
 									newLane = (new DEMOPatternExecutor()).CreateElements_and_Sequence(newLane , tk2StoreLane , MessageFlows , TKDependenciesT.get(tk2StoreLane.getName()) , TKpatternName);
 									break;
@@ -1087,57 +1093,66 @@ public class SemantifyingBPMN {
 
 	private static BPMNEdge RoutingMessageFlow(BPMNEdge edge, BPMNMessageFlow mf, BPMNElement source, BPMNElement target, org.omg.spec.dd._20100524.dc.ObjectFactory factoryDD, double Xi, double Yi, double Xf, double Yf) {
 
-			double  w_s = source.getWidth(), 
-					h_s = source.getHeight(), 
-					w_t = target.getWidth(),
-					h_t = target.getHeight();
-			double DeltaX = Xf - (Xi - w_s);
-			double DeltaY = Yf - Yi;
-			double AcceptedDelta = 1;
-			double Offset = 60;
-			double X1 = 0, Y1 = 0, X2 = 0, Y2 = 0; 
-		
-			Point point = factoryDD.createPoint();
-			Point point2 = factoryDD.createPoint();
-			Point point3 = factoryDD.createPoint();
-			Point point4 = factoryDD.createPoint();
+	
+			/*System.out.print("RoutingMessageFlow: ");
+			if (source != null) System.out.print( source.getName() + " -> " );
+			if (target != null) System.out.print( target.getName() );
+			System.out.println();*/
+	
+			if (source != null && target != null )
+			{
+				double  w_s = source.getWidth(), 
+						h_s = source.getHeight(), 
+						w_t = target.getWidth(),
+						h_t = target.getHeight();
+				double DeltaX = Xf - (Xi - w_s);
+				double DeltaY = Yf - Yi;
+				double AcceptedDelta = 1;
+				double Offset = 60;
+				double X1 = 0, Y1 = 0, X2 = 0, Y2 = 0; 
 			
-			if (mf.isDirection()) 
-			{
-				 Xi += w_s / 2;
-				 Yi += h_s;
-				 Xf += w_t / 2;
-				 point.setX(Xi);
-				 point.setY(Yi);
-				 point2.setX(Xi);
-				 point2.setY(Yi + 25);
-				 point3.setX(Xf);
-				 point3.setY(Yi + 25);
-				 point4.setX(Xf);
-				 point4.setY(Yf);
-			}
-			else
-			{
-				Xf += w_t/2;
-				Xi += w_s/2;
-				Yi += h_s;		
-				point.setX(Xf);
-				point.setY(Yf);
-				point2.setX(Xf);
-				point2.setY(Yf - 25);
-				point3.setX(Xi);
-				point3.setY(Yf - 25);
-				point4.setX(Xi);
-				point4.setY(Yi);
+				Point point = factoryDD.createPoint();
+				Point point2 = factoryDD.createPoint();
+				Point point3 = factoryDD.createPoint();
+				Point point4 = factoryDD.createPoint();
 				
-				
+				if (mf.isDirection()) 
+				{
+					 Xi += w_s / 2;
+					 Yi += h_s;
+					 Xf += w_t / 2;
+					 point.setX(Xi);
+					 point.setY(Yi);
+					 point2.setX(Xi);
+					 point2.setY(Yi + 25);
+					 point3.setX(Xf);
+					 point3.setY(Yi + 25);
+					 point4.setX(Xf);
+					 point4.setY(Yf);
+				}
+				else
+				{
+					Xf += w_t/2;
+					Xi += w_s/2;
+					Yi += h_s;		
+					point.setX(Xf);
+					point.setY(Yf);
+					point2.setX(Xf);
+					point2.setY(Yf - 25);
+					point3.setX(Xi);
+					point3.setY(Yf - 25);
+					point4.setX(Xi);
+					point4.setY(Yi);
+					
+					
+				}
+	
+				 edge.getWaypoint().add(point);
+				 edge.getWaypoint().add(point2);
+				 edge.getWaypoint().add(point3);
+				 edge.getWaypoint().add(point4);
 			}
-
-			 edge.getWaypoint().add(point);
-			 edge.getWaypoint().add(point2);
-			 edge.getWaypoint().add(point3);
-			 edge.getWaypoint().add(point4);
-
+			
 			return(edge);
 	}
 
@@ -1409,7 +1424,7 @@ public class SemantifyingBPMN {
 		
 		String usage = "The usage of SemantifyingBPMN is the following.\n" +  
 				"SemantifyingBPMN-0.0.2 --actors <filename> --tpt <filename> --tkdepend <filename> --output-file-txt <filename> --output-file-bpmn <filename>\n"
-				+ "Credits: Sérgio Guerreiro (2021) (github: https://github.com/SemantifyingBPMN/SemantifyingBPMN)\n"
+				+ "Credits: Sï¿½rgio Guerreiro (2021) (github: https://github.com/SemantifyingBPMN/SemantifyingBPMN)\n"
 				+ "\n"	
 				+"where the parameters are,\n"
 				+"--actors: is a csv file with the list of actor roles and is mandatory. Composed of 2 fields, in each line, with actor role name and description:\n"
@@ -1424,13 +1439,13 @@ public class SemantifyingBPMN {
 				+"        TK03 ;       ; RaE   ;      ;\n"
 				+"        TK04 ;       ;       ; RaE  ;\n"  
 				+" )\n"
-				+"--tkview: is a mandatory csv file with view definition for each transaction per line, acceptable values are: HappyFlow | HappyFlowAndDeclinationsAndRejections | Complete | Custom. Default value is HappyFlow.\n"
+				+"--tkview: is a mandatory csv file with view definition for each transaction per line, acceptable values are: HappyFlow | HappyFlowAndDeclinationsAndRejections | Complete | Custom | CustomHappyFlowOnly. Default value is HappyFlow.\n"
 				+"          The Custom value accepts extra detail for each transaction step, even empty ones.\n"
 				+" (e.g.\n"
-				+"      TransactionKind  ; View   ; Request Decision ; Request ; Promise Decision ; Promise ; Execute ; Declare        ; Decision Accept ; Accept \n"					
+				+"      TransactionKind  ; View   ; Request Decision ; Request ; Promise Decision ; Promise ; Decline ; After Decline Decision ; Execute ; Declare        ; Decision Accept ; Accept ; Reject ; Evaluate Rejection ; Stop\n"					
 				+"                  TK01 ; HappyFlow\n"
 				+"                  TK02 ; HappyFlowAndDeclinationsAndRejections\n"
-				+"                  TK03 ; Custom ;                  ; Pedido  ;                  ;         ; Executa ; Passa processo ; Valida resultado; \n"
+				+"                  TK03 ; Custom ;                  ; Pedido  ;                  ;         ; Executa ; how to decide          ; Produce ; Here it is     ; Valida resultado;        ; not ok ; decide reject      ; ok  \n"
 				+"                  TK04 ; Complete \n"
 				+"                  TK05 ;\n"
 				+" )\n"
