@@ -30,13 +30,13 @@ where the parameters are,
         TK03 ;       ; RaE   ;      ;
         TK04 ;       ;       ; RaE  ;
  )
---tkview: is a mandatory csv file with view definition for each transaction per line, acceptable values are: HappyFlow | HappyFlowAndDeclinationsAndRejections | Complete | Custom. Default value is HappyFlow.
+--tkview: is a mandatory csv file with view definition for each transaction per line, acceptable values are: HappyFlow | HappyFlowAndDeclinationsAndRejections | Complete | Custom | CustomHappyFlowOnly. Default value is HappyFlow.
           The Custom value accepts extra detail for each transaction step, even empty ones.
  (e.g.
-      TransactionKind  ; View   ; Request Decision ; Request ; Promise Decision ; Promise ; Execute ; Declare        ; Decision Accept ; Accept
+      TransactionKind  ; View   ; Request Decision ; Request ; Promise Decision ; Promise ; Decline ; After Decline Decision ; Execute ; Declare        ; Decision Accept ; Accept ; Reject ; Evaluate Rejection ; Stop
                   TK01 ; HappyFlow
                   TK02 ; HappyFlowAndDeclinationsAndRejections
-                  TK03 ; Custom ;                  ; Pedido  ;                  ;         ; Executa ; Passa processo ; Valida resultado;
+                  TK03 ; Custom ;                  ; Pedido  ;                  ;         ; Executa ; how to decide          ; Produce ; Here it is     ; Valida resultado;        ; not ok ; decide reject      ; ok
                   TK04 ; Complete
                   TK05 ;
  )
