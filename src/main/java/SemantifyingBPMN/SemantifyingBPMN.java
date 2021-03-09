@@ -392,7 +392,7 @@ public class SemantifyingBPMN {
 									newLane = (new DEMOPatternCustomExecutor()).CreateElements_and_Sequence(newLane , tk2StoreLane , MessageFlows , TKDependenciesT.get(tk2StoreLane.getName()) , TKpatternName);
 									break;
 							case "CustomHappyFlowOnly":
-									newLane = (new DEMOPatternCustomExecutorHappyFlowOnly()).CreateElements_and_Sequence(newLane , tk2StoreLane , MessageFlows , TKDependencies.get(tk2StoreLane.getName()) , TKpatternName );
+									newLane = (new DEMOPatternCustomExecutorHappyFlowOnly()).CreateElements_and_Sequence(newLane , tk2StoreLane , MessageFlows , TKDependenciesT.get(tk2StoreLane.getName()) , TKpatternName );
 									break;																	
 							case "Complete":									
 									newLane = (new DEMOPatternExecutor()).CreateElements_and_Sequence(newLane , tk2StoreLane , MessageFlows , TKDependenciesT.get(tk2StoreLane.getName()) , TKpatternName);
