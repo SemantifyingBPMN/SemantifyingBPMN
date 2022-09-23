@@ -54,9 +54,9 @@ where the parameters are,
 
 Command example:
 
- 
+``` 
 java -jar .\SemantifyingBPMN-4.0.1.jar --actors .\actorRoles-2021-01-18.txt --tpt .\tpt-2021-01-18.txt --tkdepend .\TKdependencies-2021-01-18.txt --output-file-bpmn collab.bpmn --tkview .\tkview-2021-01-18.txt
-
+```
 
 
 
