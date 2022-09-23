@@ -13,8 +13,13 @@ import java.util.List;
 import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;
 import javax.xml.bind.annotation.XmlAnyElement;
+import javax.xml.bind.annotation.XmlElement;
 import javax.xml.bind.annotation.XmlType;
+
+import org.omg.spec.bpmn._20100524.di.BPMNDiagram;
 import org.w3c.dom.Element;
+
+import camunda.spec.bpmn.*;
 
 
 /**
@@ -37,14 +42,15 @@ import org.w3c.dom.Element;
  * 
  */
 @XmlAccessorType(XmlAccessType.FIELD)
-@XmlType(name = "tExtensionElements", propOrder = {
-    "any"
-})
+@XmlType(name = "tExtensionElements", propOrder = {"formData"})
 public class TExtensionElements {
 
-    @XmlAnyElement(lax = true)
-    protected List<Object> any;
+    //@XmlAnyElement(lax = true)
+    //protected List<Object> any;
 
+    @XmlElement(required = true, namespace="http://camunda.org/schema/1.0/bpmn")
+    protected List<formData> formData;
+    
     /**
      * Gets the value of the any property.
      * 
@@ -68,11 +74,20 @@ public class TExtensionElements {
      * 
      * 
      */
-    public List<Object> getAny() {
+/*   
+ * public List<Object> getAny() {
         if (any == null) {
             any = new ArrayList<Object>();
         }
         return this.any;
     }
-
+*/
+    
+    public List<formData> getformData() {
+        if (formData == null) {
+        	formData = new ArrayList<formData>();
+        }
+        return this.formData;
+    }
+    
 }

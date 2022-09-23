@@ -2,6 +2,7 @@ package SemantifyingBPMN;
 
 public enum ActivityType {
 	Task , SendTask , ReceiveTask , ManualTask , Compensation ,
-	SendTaskWithBoundaryRollback , ManualTaskWithBoundaryRollback; 
+	SendTaskWithBoundaryRollback , ManualTaskWithBoundaryRollback ,
+	UserTask; 
 
 }

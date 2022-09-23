@@ -8,9 +8,15 @@ public class DEMOPatternHappyFlowAndDeclinationsAndRejectionsInitiator
 extends DEMOPattern{
 
 	
-	public Lane CreateElements_and_Sequence(Lane lane , TransactionKind tk, ArrayList<BPMNMessageFlow> MessageFlows , ArrayList<String> deps , PatternView view ) {
+	public Lane CreateElements_and_Sequence(Lane lane , TransactionKind tk, ArrayList<BPMNMessageFlow> MessageFlows , ArrayList<String> deps , PatternView view , boolean isFirst) {
 		
-	    QName strt = lane.addElement(new Event  ( EventType.Start, "INITIAL" , "INITIAL" , 2));
+		QName strt;
+		if (isFirst) strt = lane.addElement(new Event  ( EventType.Start, "INITIAL" , "INITIAL" , 2));
+		else strt = lane.addElement(new Event  ( EventType.IntermediateCatchEvent, "INITIAL" , "INITIAL" , 2));
+
+		
+	    //QName strt = lane.addElement(new Event  ( EventType.Start, "INITIAL" , "INITIAL" , 2));
+	    
 	    QName act1 = lane.addElement(new Activity  ( ActivityType.ManualTask, "Decide the type of product to order" , "Decide the type of product to order" , 2));
 	    QName gtw1 = lane.addElement(new Gateway( GatewayType.Exclusive , "converging gateway" , "converging gateway"  , 2));
 		QName act2 = lane.addElement(new Activity( ActivityType.SendTask , "Request product" , "Request product"  , 2));
@@ -19,8 +25,8 @@ extends DEMOPattern{
 	    QName gtw3 = lane.addElement(new Gateway( GatewayType.Exclusive , "converging gateway" , "converging gateway"  , 2));
 	    QName act3 = lane.addElement(new Activity  ( ActivityType.ManualTask, "Check product" , "Check product" , 2));
 	    QName gtw4 = lane.addElement(new Gateway( GatewayType.Exclusive , "Is product ok?" , "Is product ok?"  , 2));
-		QName act4 = lane.addElement(new Activity( ActivityType.SendTask , "Accept Product" , "Accept Product"  , 2));
-	    QName end1 = lane.addElement(new Event  ( EventType.End, "END" , "END" , 2));
+		QName act4 = lane.addElement(new Activity( ActivityType.SendTask , "Accept" , "Accept"  , 2));
+	
 		QName act5 = lane.addElementWithShift(new Activity( ActivityType.SendTask , "Reject product" , "Reject product"  , 1) , 0.45);
 	    QName end2 = lane.addElementWithShift(new Event  ( EventType.End, "END" , "END" , 5),0.05);
 	    QName gtw5 = lane.addElement(new Gateway( GatewayType.Exclusive , "Make new request?" , "Make new request?"  , 5));
@@ -45,13 +51,19 @@ extends DEMOPattern{
 	    lane.addSequenceFlow(new BPMNSequenceFlow(act3 , gtw4));
 	    lane.addSequenceFlow(new BPMNSequenceFlow(gtw4 , act4));
 	    lane.addSequenceFlow(new BPMNSequenceFlow(gtw4 , act5));
-	    lane.addSequenceFlow(new BPMNSequenceFlow(act4 , end1));
+	    if (isFirst) 
+	    {
+	    	QName end1 = lane.addElement(new Event  ( EventType.End, "END" , "END" , 2));
+	    	lane.addSequenceFlow(new BPMNSequenceFlow(act4 , end1));
+	    }
 	    lane.addSequenceFlow(new BPMNSequenceFlow(act5 , gtw3));
 	    lane.addSequenceFlow(new BPMNSequenceFlow(gtw2 , evt2));	    
 	    lane.addSequenceFlow(new BPMNSequenceFlow(evt2 , act6));
 	    lane.addSequenceFlow(new BPMNSequenceFlow(act6 , gtw5));
 	    lane.addSequenceFlow(new BPMNSequenceFlow(gtw5 , gtw1));
 	    lane.addSequenceFlow(new BPMNSequenceFlow(gtw5 , end2));
+	    
+	  
 
 
 	    if ( CheckMessageFlow(MessageFlows , tk) == false ) //no message flow exists

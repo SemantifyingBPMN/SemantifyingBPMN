@@ -10,7 +10,7 @@ public class DEMOPatternCustomInitiator
 extends DEMOPattern{
 
 	
-	public Lane CreateElements_and_Sequence(Lane lane , TransactionKind tk, ArrayList<BPMNMessageFlow> MessageFlows , ArrayList<String> deps , PatternView view) {
+	public Lane CreateElements_and_Sequence(Lane lane , TransactionKind tk, ArrayList<BPMNMessageFlow> MessageFlows , ArrayList<String> deps , PatternView view, boolean isFirst) {
 
 //define elements
 //		0   INITIAL
@@ -41,7 +41,12 @@ extends DEMOPattern{
 		ArrayList<SemantifiedElement> semantified_elements = new ArrayList<SemantifiedElement>();
 
 		// Provision the full pattern with declinations and rejections in semantified_elements - BPMN elements and all flow
-	    QName strt = lane.addElement(new Event  ( EventType.Start, "INITIAL" , "INITIAL" , 2));
+		QName strt;
+		if (isFirst) strt = lane.addElement(new Event  ( EventType.Start, "INITIAL" , "INITIAL" , 2));
+		else strt = lane.addElement(new Event  ( EventType.IntermediateCatchEvent, "INITIAL" , "INITIAL" , 2));
+		
+	    //QName strt = lane.addElement(new Event  ( EventType.Start, "INITIAL" , "INITIAL" , 2));
+		
 	    QName act1 = lane.addElement(new Activity  ( ActivityType.ManualTask, "Request Decision" , "Request Decision" , 2));
 	    QName gtw1 = lane.addElement(new Gateway( GatewayType.Exclusive , "converging gateway" , "converging gateway"  , 2));
 		QName act2 = lane.addElement(new Activity( ActivityType.SendTask , "Request" , "Request"  , 2));
@@ -51,7 +56,6 @@ extends DEMOPattern{
 	    QName act3 = lane.addElement(new Activity  ( ActivityType.ManualTask, "Decision Accept" , "Decision Accept" , 2));
 	    QName gtw4 = lane.addElement(new Gateway( GatewayType.Exclusive , "Is product ok?" , "Is product ok?"  , 2));
 		QName act4 = lane.addElement(new Activity( ActivityType.SendTask , "Accept" , "Accept"  , 2));
-	    QName end1 = lane.addElement(new Event  ( EventType.End, "END" , "END" , 2));
 		QName act5 = lane.addElementWithShift(new Activity( ActivityType.SendTask , "Reject" , "Reject"  , 1) , 0.45);
 	    QName end2 = lane.addElementWithShift(new Event  ( EventType.End, "END" , "END" , 5),0.05);
 	    QName gtw5 = lane.addElement(new Gateway( GatewayType.Exclusive , "Make new request?" , "Make new request?"  , 5));
@@ -62,54 +66,107 @@ extends DEMOPattern{
 		QName evt4 = lane.addElementWithShift(new Event  ( EventType.IntermediateMessageCatchEvent, "Stop received" , "Stop received" , 4),0.4);
 	    QName end3 = lane.addElement(new Event  ( EventType.End, "END" , "END" , 4));
 		
-		semantified_elements.add( new SemantifiedElement( strt , "INITIAL" , true)  ); // 0
-		semantified_elements.add( new SemantifiedElement( act1 , "Request Decision")  ); //1 
-		semantified_elements.add( new SemantifiedElement( gtw1 , "converging gateway", true)  ); //2
-		semantified_elements.add( new SemantifiedElement( act2 , "Request")  ); //3
-		semantified_elements.add( new SemantifiedElement( gtw2 , "Wait for Request result", true)  ); //4
+	    
+		semantified_elements.add( new SemantifiedElement( strt , "INITIAL" , true)  ); 
+		semantified_elements.add( new SemantifiedElement( act1 , "Request Decision")  );
+		
+		if (	 view.getTKStepValue("Decline").compareTo("")  == 0 ) 	
+			semantified_elements.add( new SemantifiedElement( gtw1 , "converging gateway")  );
+		else semantified_elements.add( new SemantifiedElement( gtw1 , "converging gateway", true)  );			
+			
+		semantified_elements.add( new SemantifiedElement( act2 , "Request")  ); 
+		
+		if ( (view.getTKStepValue("Decline").compareTo("")  != 0)  )
+			semantified_elements.add( new SemantifiedElement( gtw2 , "Wait for Request result" , true)  ); 
+		else semantified_elements.add( new SemantifiedElement( gtw2 , "Wait for Request result")  ); 
+		
 		if (view.getTKStepValue("Promise").compareTo("") != 0) semantified_elements.add( new SemantifiedElement( evt1 , "Promise received" , true)  ); //5
-		else semantified_elements.add( new SemantifiedElement( evt1 , "Promise received")  ); //5
-		semantified_elements.add( new SemantifiedElement( gtw3 , "converging gateway" , true)  );//6
-		semantified_elements.add( new SemantifiedElement( act3 , "Decision Accept")  ); //7
-		semantified_elements.add( new SemantifiedElement( gtw4 , "Is product ok?" , true)  ); //8
-		semantified_elements.add( new SemantifiedElement( act4 , "Accept")  );//9
-		semantified_elements.add( new SemantifiedElement( end1 , "END" , true)  ); //10
-		semantified_elements.add( new SemantifiedElement( act5 , "Reject")  );//11
-		semantified_elements.add( new SemantifiedElement( end2 , "END" , true)  );//12
-		semantified_elements.add( new SemantifiedElement( gtw5 , "Make new request?" , true)  ); //13
-		semantified_elements.add( new SemantifiedElement( act6 , "After Decline Decision")  ); //14
-		if (view.getTKStepValue("Decline").compareTo("") != 0) semantified_elements.add( new SemantifiedElement( evt2 , "Decline received" , true)  ); //15
-		else semantified_elements.add( new SemantifiedElement( evt2 , "Decline received")  ); //15
-		semantified_elements.add( new SemantifiedElement( gtw6 , "Wait for Reject result" , true)  ); //16
-		if (view.getTKStepValue("Declare").compareTo("") != 0) semantified_elements.add( new SemantifiedElement( evt3 , "Declare received" , true)  ); //17
-		else semantified_elements.add( new SemantifiedElement( evt3 , "Declare received" )  ); //17
-		if (view.getTKStepValue("Stop").compareTo("") != 0) semantified_elements.add( new SemantifiedElement( evt4 , "Stop received", true)  );// 18
-		else semantified_elements.add( new SemantifiedElement( evt4 , "Stop received")  );// 18
-		semantified_elements.add( new SemantifiedElement( end3 , "END" , true)  );//19
+		else semantified_elements.add( new SemantifiedElement( evt1 , "Promise received")  ); 
+		
+		if ( view.getTKStepValue("Reject").compareTo("") == 0 )
+		semantified_elements.add( new SemantifiedElement( gtw3 , "converging gateway")  );
+		else semantified_elements.add( new SemantifiedElement( gtw3 , "converging gateway" , true)  );
+		
+		semantified_elements.add( new SemantifiedElement( act3 , "Decision Accept")  ); 
+		
+		if ( (view.getTKStepValue("Reject").compareTo("") != 0) )
+			semantified_elements.add( new SemantifiedElement( gtw4 , "Is product ok?"  , true)  );
+		else semantified_elements.add( new SemantifiedElement( gtw4 , "Is product ok?"  )  );
+		 
+		QName end1 = null;
+		if (isFirst)
+		{
+		    end1 = lane.addElement(new Event  ( EventType.End, "END" , "END" , 2));
+			semantified_elements.add( new SemantifiedElement( end1 , "END" , true)  );
+		}
+
+		semantified_elements.add( new SemantifiedElement( act4 , "Accept")  );
+
+		semantified_elements.add( new SemantifiedElement( act5 , "Reject")  );
+
+		if (view.getTKStepValue("Decline").compareTo("") != 0) 
+		{
+			semantified_elements.add( new SemantifiedElement( act6 , "After Decline Decision")  ); 	
+			semantified_elements.add( new SemantifiedElement( evt2 , "Decline received" , true)  );
+			semantified_elements.add( new SemantifiedElement( gtw5 , "Make new request?" , true)  );
+			semantified_elements.add( new SemantifiedElement( end2 , "END" , true)  );
+		}
+		else 
+		{	
+			semantified_elements.add( new SemantifiedElement( evt2 , "Decline received")  );
+			semantified_elements.add( new SemantifiedElement( act6 , "After Decline Decision")  ); 	
+			semantified_elements.add( new SemantifiedElement( gtw5 , "Make new request?")  );
+			semantified_elements.add( new SemantifiedElement( end2 , "END" )  );
+		}
+		
+		if ( (view.getTKStepValue("Stop").compareTo("") != 0) //&& check comment in DEMOPAtternCustomExecutor  
+			 //(view.getTKStepValue("Declare").compareTo("") != 0)  	)
+				)
+			semantified_elements.add( new SemantifiedElement( gtw6 , "Wait for Reject result" , true)  );
+		else semantified_elements.add( new SemantifiedElement( gtw6 , "Wait for Reject result" )  ); 
+		
+		if (view.getTKStepValue("Declare").compareTo("") != 0) 
+		{
+			semantified_elements.add( new SemantifiedElement( evt3 , "Declare received" , true)  ); 
+		}
+		else 
+		{
+			semantified_elements.add( new SemantifiedElement( evt3 , "Declare received" )  ); 
+		}
+		
+		if (view.getTKStepValue("Stop").compareTo("") != 0) 
+		{
+			semantified_elements.add( new SemantifiedElement( evt4 , "Stop received", true)  );
+			semantified_elements.add( new SemantifiedElement( end3 , "END" , true)  );
+		}
+		else 
+		{
+			semantified_elements.add( new SemantifiedElement( evt4 , "Stop received")  );
+			semantified_elements.add( new SemantifiedElement( end3 , "END")  );
+		}
 		
 		     // add all the flows to semantified elements
-		semantified_elements.get(0).AddReferenced_semantified_element(1);
-		semantified_elements.get(1).AddReferenced_semantified_element(2);
-		semantified_elements.get(2).AddReferenced_semantified_element(3);
-		semantified_elements.get(3).AddReferenced_semantified_element(4);
-		semantified_elements.get(4).AddReferenced_semantified_element(5);
-		semantified_elements.get(5).AddReferenced_semantified_element(6);
-		semantified_elements.get(6).AddReferenced_semantified_element(16);
-		semantified_elements.get(16).AddReferenced_semantified_element(17);
-		semantified_elements.get(16).AddReferenced_semantified_element(18);
-		semantified_elements.get(18).AddReferenced_semantified_element(19);
-		semantified_elements.get(17).AddReferenced_semantified_element(7);
-		semantified_elements.get(7).AddReferenced_semantified_element(8);
-		semantified_elements.get(8).AddReferenced_semantified_element(9);
-		semantified_elements.get(8).AddReferenced_semantified_element(11);
-		semantified_elements.get(9).AddReferenced_semantified_element(10);
-		semantified_elements.get(11).AddReferenced_semantified_element(6);
-		semantified_elements.get(4).AddReferenced_semantified_element(15);	    
-		semantified_elements.get(15).AddReferenced_semantified_element(14);
-		semantified_elements.get(14).AddReferenced_semantified_element(13);
-		semantified_elements.get(13).AddReferenced_semantified_element(2);
-		semantified_elements.get(13).AddReferenced_semantified_element(12);
-		
+		AddFlow2SemantifiedElements(semantified_elements ,strt , act1);
+		AddFlow2SemantifiedElements(semantified_elements ,act1 , gtw1);
+		AddFlow2SemantifiedElements(semantified_elements ,gtw1 , act2);
+		AddFlow2SemantifiedElements(semantified_elements ,act2 , gtw2);
+		AddFlow2SemantifiedElements(semantified_elements ,gtw2 , evt1);
+		AddFlow2SemantifiedElements(semantified_elements ,evt1 , gtw3);
+		AddFlow2SemantifiedElements(semantified_elements ,gtw3 , gtw6);
+		AddFlow2SemantifiedElements(semantified_elements ,gtw6 , evt3);
+		AddFlow2SemantifiedElements(semantified_elements ,gtw6 , evt4);
+		AddFlow2SemantifiedElements(semantified_elements ,evt4 , end3);
+		AddFlow2SemantifiedElements(semantified_elements ,evt3 , act3);
+		AddFlow2SemantifiedElements(semantified_elements ,act3 , gtw4);
+		AddFlow2SemantifiedElements(semantified_elements ,gtw4 , act4);
+		AddFlow2SemantifiedElements(semantified_elements ,gtw4 , act5);
+		if (isFirst) AddFlow2SemantifiedElements(semantified_elements ,act4 , end1);
+		AddFlow2SemantifiedElements(semantified_elements ,act5 , gtw3);
+		AddFlow2SemantifiedElements(semantified_elements ,gtw2 , evt2);	    
+		AddFlow2SemantifiedElements(semantified_elements ,evt2 , act6);
+		AddFlow2SemantifiedElements(semantified_elements ,act6 , gtw5);
+		AddFlow2SemantifiedElements(semantified_elements ,gtw5 , gtw1);
+		AddFlow2SemantifiedElements(semantified_elements ,gtw5 , end2);
 		
 		// Provision the configured elements at CustomView in semantified_elements with boolean		
 		Set<String> keys = view.getCustomViewDetail().keySet();
@@ -134,8 +191,6 @@ extends DEMOPattern{
 			}
 		}	
 				
-		// remove the useless gateways from lane
-
 		
 		// remove elements from lane that are not provisioned in the Custom view
 		for (SemantifiedElement semElem:semantified_elements )
@@ -153,6 +208,8 @@ extends DEMOPattern{
 				for (int NConnection = 0 ; NConnection < semElemSource.getReferenced_semantified_elements().size() ; NConnection++ )
 				{
 					int targetIdx = semElemSource.GetReferenced_semantified_element(NConnection).intValue();
+					int lastconsidered = targetIdx;
+					boolean secondtry = false;
 					
 					while ( targetIdx < semantified_elements.size())
 					{						
@@ -160,11 +217,30 @@ extends DEMOPattern{
 						if ( semElemTarget.isToConsider()  )
 						{
 							lane.addSequenceFlow(new BPMNSequenceFlow( semElemSource.getSemantified_element() , 
-																	   semElemTarget.getSemantified_element() )	);							
+																	   semElemTarget.getSemantified_element() )	);
+							lastconsidered = targetIdx;
 							targetIdx = semantified_elements.size();
 							System.out.println("Flow added from: " + semElemSource.toString() + " to: " + semElemTarget.toString());
 						}					
-						else targetIdx = semElemTarget.GetReferenced_semantified_element(0);	// only consider one path - enough because gateways exist....					
+						else
+						{
+							System.out.println("Choosing target: " + semElemTarget.toString());
+							if ( secondtry == false && semElemTarget.getReferenced_semantified_elements().size() == 0 ) 
+							{
+								//dead end -> end of search using first path
+								targetIdx = lastconsidered; // go back
+								secondtry = true; // and force the second path solution
+							}
+							else 
+							{
+								if ( secondtry && ( semElemTarget.getReferenced_semantified_elements().size() > 1) )
+								{
+										targetIdx = semElemTarget.GetReferenced_semantified_element(1);	// trying second path
+										secondtry = false;
+								}
+								else targetIdx = semElemTarget.GetReferenced_semantified_element(0);	// trying first path					
+							}
+						}
 					}					
 				}				
 			}			
@@ -173,23 +249,23 @@ extends DEMOPattern{
 		
 	    if ( CheckMessageFlow(MessageFlows , tk) == false ) //no message flow exists
 	    {	    	
-	    	if ( view.getTKStepValue("Request").compareTo("") != 0) MessageFlows.add(new BPMNMessageFlow(tk, semantified_elements.get(3).getSemantified_element(), "request (C-act)", true) );
-	    	if ( view.getTKStepValue("Accept").compareTo("") != 0) MessageFlows.add(new BPMNMessageFlow(tk, semantified_elements.get(9).getSemantified_element(), "accept (C-act)",  true) );
-	    	if ( view.getTKStepValue("Reject").compareTo("") != 0) MessageFlows.add(new BPMNMessageFlow(tk,semantified_elements.get(11).getSemantified_element(), "reject (C-act)",  true) );
-	    	if ( view.getTKStepValue("Promise").compareTo("") != 0) MessageFlows.add(new BPMNMessageFlow(tk, semantified_elements.get(5).getSemantified_element() ,"promise (C-act)", false) );
-	    	if ( view.getTKStepValue("Decline").compareTo("") != 0) MessageFlows.add(new BPMNMessageFlow(tk, semantified_elements.get(15).getSemantified_element() ,"decline (C-act)", false) );
-	    	if ( view.getTKStepValue("Declare").compareTo("") != 0) MessageFlows.add(new BPMNMessageFlow(tk, semantified_elements.get(17).getSemantified_element() ,"declare (C-act)", false) );
-	    	if ( view.getTKStepValue("Stop").compareTo("") != 0) MessageFlows.add(new BPMNMessageFlow(tk, semantified_elements.get(18).getSemantified_element() ,"stop (C-act)", false) );
+	    	if ( view.getTKStepValue("Request").compareTo("") != 0) MessageFlows.add(new BPMNMessageFlow(tk, act2, "request (C-act)", true) );
+	    	if ( view.getTKStepValue("Accept").compareTo("") != 0) MessageFlows.add(new BPMNMessageFlow(tk, act4, "accept (C-act)",  true) );
+	    	if ( view.getTKStepValue("Reject").compareTo("") != 0) MessageFlows.add(new BPMNMessageFlow(tk, act5, "reject (C-act)",  true) );
+	    	if ( view.getTKStepValue("Promise").compareTo("") != 0) MessageFlows.add(new BPMNMessageFlow(tk, evt1 ,"promise (C-act)", false) );
+	    	if ( view.getTKStepValue("Decline").compareTo("") != 0) MessageFlows.add(new BPMNMessageFlow(tk, evt2 ,"decline (C-act)", false) );
+	    	if ( view.getTKStepValue("Declare").compareTo("") != 0) MessageFlows.add(new BPMNMessageFlow(tk, evt3 ,"declare (C-act)", false) );
+	    	if ( view.getTKStepValue("Stop").compareTo("") != 0) MessageFlows.add(new BPMNMessageFlow(tk, evt4 ,"stop (C-act)", false) );
 	    }
 	    else
 	    {
-	    	if ( view.getTKStepValue("Request").compareTo("") != 0) updateMessageFlow(MessageFlows, tk, semantified_elements.get(3).getSemantified_element(), "request (C-act)" );
-	    	if ( view.getTKStepValue("Accept").compareTo("") != 0) updateMessageFlow(MessageFlows, tk, semantified_elements.get(9).getSemantified_element(), "accept (C-act)" );
-	    	if ( view.getTKStepValue("Reject").compareTo("") != 0) updateMessageFlow(MessageFlows, tk, semantified_elements.get(11).getSemantified_element(), "reject (C-act)" );			
-	    	if ( view.getTKStepValue("Promise").compareTo("") != 0) updateMessageFlow(MessageFlows,tk, semantified_elements.get(5).getSemantified_element() ,"promise (C-act)");
-	    	if ( view.getTKStepValue("Decline").compareTo("") != 0) updateMessageFlow(MessageFlows,tk, semantified_elements.get(15).getSemantified_element() ,"decline (C-act)");
-	    	if ( view.getTKStepValue("Declare").compareTo("") != 0) updateMessageFlow(MessageFlows,tk, semantified_elements.get(17).getSemantified_element() ,"declare (C-act)" );
-	    	if ( view.getTKStepValue("Stop").compareTo("") != 0) updateMessageFlow(MessageFlows,tk, semantified_elements.get(18).getSemantified_element() ,"stop (C-act)" );
+	    	if ( view.getTKStepValue("Request").compareTo("") != 0) updateMessageFlow(MessageFlows, tk, act2, "request (C-act)" );
+	    	if ( view.getTKStepValue("Accept").compareTo("") != 0) updateMessageFlow(MessageFlows, tk, act4, "accept (C-act)" );
+	    	if ( view.getTKStepValue("Reject").compareTo("") != 0) updateMessageFlow(MessageFlows, tk, act5, "reject (C-act)" );			
+	    	if ( view.getTKStepValue("Promise").compareTo("") != 0) updateMessageFlow(MessageFlows,tk, evt1 ,"promise (C-act)");
+	    	if ( view.getTKStepValue("Decline").compareTo("") != 0) updateMessageFlow(MessageFlows,tk, evt2 ,"decline (C-act)");
+	    	if ( view.getTKStepValue("Declare").compareTo("") != 0) updateMessageFlow(MessageFlows,tk, evt3 ,"declare (C-act)" );
+	    	if ( view.getTKStepValue("Stop").compareTo("") != 0) updateMessageFlow(MessageFlows,tk, evt4 ,"stop (C-act)" );
 	    }	    
 	    
 		lane = SpecifyIncoming_Outgoing(lane);

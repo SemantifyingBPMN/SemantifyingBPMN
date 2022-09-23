@@ -7,7 +7,7 @@ import javax.xml.namespace.QName;
 public class DEMOPatternInitiator 
 extends DEMOPattern{
 
-   	  public Lane CreateElements_and_Sequence(Lane lane , TransactionKind tk, ArrayList<BPMNMessageFlow> MessageFlows , ArrayList<String> deps , PatternView view )
+   	  public Lane CreateElements_and_Sequence(Lane lane , TransactionKind tk, ArrayList<BPMNMessageFlow> MessageFlows , ArrayList<String> deps , PatternView view , boolean isFirst)
    	  {
    		  // level 1
    		  QName evt1_1 = lane.addElement(new Event  ( EventType.IntermediateMessageCatchEvent, "revoke accept triggered" , "revoke accept triggered" , 1));
@@ -118,7 +118,7 @@ extends DEMOPattern{
    		  QName act8_1 = lane.addElement(new Activity( ActivityType.ManualTask , "Check Product" , "Check Product"  , 8));
    		  QName gtw8_3 = lane.addElement(new Gateway( GatewayType.Exclusive , "Is product ok?" , "Is product ok?" , 8) );
    		  BoundaryEvent bndevt8_1 = new BoundaryEvent("rollback accept trigger","rollback accept trigger");  
-   		  QName act8_2 = lane.addElement(new Activity( ActivityType.SendTaskWithBoundaryRollback , "Accept Product" , "Accept Product"  , 8 , bndevt8_1));
+   		  QName act8_2 = lane.addElement(new Activity( ActivityType.SendTaskWithBoundaryRollback , "Accept" , "Accept"  , 8 , bndevt8_1));
    		  QName end8_2 = lane.addElement(new Event  ( EventType.TerminateAll, "end" , "end" , 8));
    		  lane.addSequenceFlow(new BPMNSequenceFlow(gtw8_1 , end8_1));
    		  lane.addSequenceFlow(new BPMNSequenceFlow(gtw8_1 , gtw7_2));

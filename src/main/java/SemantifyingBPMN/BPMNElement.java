@@ -62,6 +62,6 @@ public abstract class BPMNElement {
 	public void add_Flow_Incoming(QName flow)	{	qname_flow_Incoming.add(flow); }
 	public void add_Flow_Outgoing(QName flow)	{	qname_flow_Outgoing.add(flow); }
 	
-	
+	public void DecrementLevel() { level--;}
 	
 }

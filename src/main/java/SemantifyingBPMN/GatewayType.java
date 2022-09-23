@@ -1,5 +1,5 @@
 package SemantifyingBPMN;
 
 public enum GatewayType {
-	Exclusive , Eventbased , Parallel;
+	Exclusive , Eventbased , Parallel , Inclusive;
 }

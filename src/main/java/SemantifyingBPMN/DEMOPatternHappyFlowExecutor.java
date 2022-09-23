@@ -8,7 +8,7 @@ public class DEMOPatternHappyFlowExecutor
 extends DEMOPattern{
 
 	
-	public Lane CreateElements_and_Sequence(Lane lane , TransactionKind tk, ArrayList<BPMNMessageFlow> MessageFlows , ArrayList<String> deps , PatternView view ) {
+	public Lane CreateElements_and_Sequence(Lane lane , TransactionKind tk, ArrayList<BPMNMessageFlow> MessageFlows , ArrayList<String> deps , PatternView view , boolean isFirst) {
 		
 		 boolean RaP = CheckPreviousFixed(deps, new String("RaP"));  
 		 boolean RaE = CheckPreviousFixed(deps, new String("RaE"));  
@@ -21,28 +21,36 @@ extends DEMOPattern{
 	
 	    QName strt = lane.addElement(new Event  ( EventType.Start, "INITIAL" , "INITIAL" , 1));
 	    QName act1 = lane.addElement(new Activity  ( ActivityType.ManualTask, "Verify if execute product is possible" , "Verify if execute product is possible" , 1));
-		QName act2 = lane.addElement(new Activity( ActivityType.SendTask , "Promise product" , "Promise product"  , 1));
+		QName act2 = lane.addElement(new Activity( ActivityType.SendTask , "Promise" , "Promise"  , 1));
 		if (RaP)
 		{
-			 DIVERGE_RaP = lane.addElement(new Gateway( GatewayType.Parallel , "DIVERGE_RaP" , "DIVERGE_RaP"   , 1));
-			 CONVERGE_RaP = lane.addElement(new Gateway( GatewayType.Parallel , "CONVERGE_RaP" , "CONVERGE_RaP"   , 1));
+//			 DIVERGE_RaP = lane.addElement(new Gateway( GatewayType.Parallel , "DIVERGE_RaP" , "DIVERGE_RaP"   , 1));
+//			 CONVERGE_RaP = lane.addElement(new Gateway( GatewayType.Parallel , "CONVERGE_RaP" , "CONVERGE_RaP"   , 1));
+			 DIVERGE_RaP = lane.addElement(new Gateway( GatewayType.Inclusive , "DIVERGE_RaP" , "DIVERGE_RaP"   , 1));
+			 CONVERGE_RaP = lane.addElement(new Gateway( GatewayType.Inclusive , "CONVERGE_RaP" , "CONVERGE_RaP"   , 1));
+
 		}
 		
-	    QName act3 = lane.addElement(new Activity  ( ActivityType.ManualTask, "Execute product (P-act)" , "Execute product (P-act)" , 1));
+	    QName act3 = lane.addElement(new Activity  ( ActivityType.ManualTask, "Execute (P-act)" , "Execute (P-act)" , 1));
 	    if (RaE)
 	    {
- 			 DIVERGE_RaE = lane.addElement(new Gateway( GatewayType.Parallel , "DIVERGE_RaE" , "DIVERGE_RaE"   , 1));
- 			 CONVERGE_RaE = lane.addElement(new Gateway( GatewayType.Parallel , "CONVERGE_RaE" , "CONVERGE_RaE"   , 1)); 
+// 			 DIVERGE_RaE = lane.addElement(new Gateway( GatewayType.Parallel , "DIVERGE_RaE" , "DIVERGE_RaE"   , 1));
+// 			 CONVERGE_RaE = lane.addElement(new Gateway( GatewayType.Parallel , "CONVERGE_RaE" , "CONVERGE_RaE"   , 1));
+			 DIVERGE_RaE = lane.addElement(new Gateway( GatewayType.Inclusive , "DIVERGE_RaE" , "DIVERGE_RaE"   , 1));
+			 CONVERGE_RaE = lane.addElement(new Gateway( GatewayType.Inclusive , "CONVERGE_RaE" , "CONVERGE_RaE"   , 1)); 
+
 	    }
-		QName act4 = lane.addElement(new Activity( ActivityType.SendTask , "Declare product" , "Declare product"  , 1));
+		QName act4 = lane.addElement(new Activity( ActivityType.SendTask , "Declare" , "Declare"  , 1));
 		if (RaD)
 		{
- 			 DIVERGE_RaD = lane.addElement(new Gateway( GatewayType.Parallel , "DIVERGE_RaD" , "DIVERGE_RaD"   , 1));
+// 			 DIVERGE_RaD = lane.addElement(new Gateway( GatewayType.Parallel , "DIVERGE_RaD" , "DIVERGE_RaD"   , 1));
+ 			 DIVERGE_RaD = lane.addElement(new Gateway( GatewayType.Inclusive , "DIVERGE_RaD" , "DIVERGE_RaD"   , 1));
 		}
 		QName evt1 = lane.addElement(new Event  ( EventType.IntermediateMessageCatchEvent, "Accept received" , "Accept received" , 1));
 		if (RaD) 
 		{
-	  	      CONVERGE_RaD = lane.addElement(new Gateway( GatewayType.Parallel , "CONVERGE_RaD" , "CONVERGE_RaD"   , 1)); 			 
+//	  	      CONVERGE_RaD = lane.addElement(new Gateway( GatewayType.Parallel , "CONVERGE_RaD" , "CONVERGE_RaD"   , 1));
+	  	      CONVERGE_RaD = lane.addElement(new Gateway( GatewayType.Inclusive , "CONVERGE_RaD" , "CONVERGE_RaD"   , 1));
 		}
 	    QName end = lane.addElement(new Event  ( EventType.End, "END" , "END" , 1));
 
@@ -101,5 +109,6 @@ extends DEMOPattern{
 		return(lane);
  		  
    	};
+
 
 }

@@ -7,7 +7,7 @@ import javax.xml.namespace.QName;
 public class DEMOPatternExecutor 
 extends DEMOPattern{
 
- 	  public Lane CreateElements_and_Sequence(Lane lane , TransactionKind tk, ArrayList<BPMNMessageFlow> MessageFlows , ArrayList<String> deps , PatternView view)
+ 	  public Lane CreateElements_and_Sequence(Lane lane , TransactionKind tk, ArrayList<BPMNMessageFlow> MessageFlows , ArrayList<String> deps , PatternView view, boolean isFirst)
  	  {
 
  		  boolean RaP = CheckPreviousFixed(deps, new String("RaP"));  
@@ -69,28 +69,36 @@ extends DEMOPattern{
 		  QName act3_4 = lane.addElement(new Activity( ActivityType.SendTaskWithBoundaryRollback , "Promise product" , "Promise product"  , 3 , bndevt3_1));
 		  if (RaP)
  		  {
- 			 DIVERGE_RaP = lane.addElement(new Gateway( GatewayType.Parallel , "DIVERGE_RaP" , "DIVERGE_RaP"   , 3));
- 			 CONVERGE_RaP = lane.addElement(new Gateway( GatewayType.Parallel , "CONVERGE_RaP" , "CONVERGE_RaP"   , 3));
+// 			 DIVERGE_RaP = lane.addElement(new Gateway( GatewayType.Parallel , "DIVERGE_RaP" , "DIVERGE_RaP"   , 3));
+// 			 CONVERGE_RaP = lane.addElement(new Gateway( GatewayType.Parallel , "CONVERGE_RaP" , "CONVERGE_RaP"   , 3));
+	 			 DIVERGE_RaP = lane.addElement(new Gateway( GatewayType.Inclusive , "DIVERGE_RaP" , "DIVERGE_RaP"   , 3));
+	 			 CONVERGE_RaP = lane.addElement(new Gateway( GatewayType.Inclusive , "CONVERGE_RaP" , "CONVERGE_RaP"   , 3));
+
  		  }
 		  BoundaryEvent bndevt3_2 = new BoundaryEvent("rollback execute trigger","rollback execute trigger");  
 		  QName act3_5 = lane.addElement(new Activity( ActivityType.ManualTaskWithBoundaryRollback , "Execute product (Production)" , "Execute product (Production)"  , 3 , bndevt3_2));
 		  if (RaE)
  		  {
-  			 DIVERGE_RaE = lane.addElement(new Gateway( GatewayType.Parallel , "DIVERGE_RaE" , "DIVERGE_RaE"   , 3));
-  			 CONVERGE_RaE = lane.addElement(new Gateway( GatewayType.Parallel , "CONVERGE_RaE" , "CONVERGE_RaE"   , 3)); 
+//  			 DIVERGE_RaE = lane.addElement(new Gateway( GatewayType.Parallel , "DIVERGE_RaE" , "DIVERGE_RaE"   , 3));
+//  			 CONVERGE_RaE = lane.addElement(new Gateway( GatewayType.Parallel , "CONVERGE_RaE" , "CONVERGE_RaE"   , 3));
+  			 DIVERGE_RaE = lane.addElement(new Gateway( GatewayType.Inclusive , "DIVERGE_RaE" , "DIVERGE_RaE"   , 3));
+  			 CONVERGE_RaE = lane.addElement(new Gateway( GatewayType.Inclusive , "CONVERGE_RaE" , "CONVERGE_RaE"   , 3)); 
+
  		  }
 		  QName gtw3_7 = lane.addElement(new Gateway( GatewayType.Exclusive , "converging" , "converging" , 3));
 		  BoundaryEvent bndevt3_3 = new BoundaryEvent("rollback declare trigger","rollback declare trigger");  
 		  QName act3_6 = lane.addElement(new Activity( ActivityType.SendTaskWithBoundaryRollback , "Declare product" , "Declare product"  , 3 , bndevt3_3));
 		  if (RaD)
  		  {
-  			 DIVERGE_RaD = lane.addElement(new Gateway( GatewayType.Parallel , "DIVERGE_RaD" , "DIVERGE_RaD"   , 3));
+//  			 DIVERGE_RaD = lane.addElement(new Gateway( GatewayType.Parallel , "DIVERGE_RaD" , "DIVERGE_RaD"   , 3));
+  			 DIVERGE_RaD = lane.addElement(new Gateway( GatewayType.Inclusive , "DIVERGE_RaD" , "DIVERGE_RaD"   , 3));
  		  }
 		  QName gtw3_6 = lane.addElement(new Gateway( GatewayType.Eventbased, "wait for declare result" , "wait for declare result" , 3));
 		  QName evt3_6 = lane.addElement(new Event  ( EventType.IntermediateMessageCatchEvent, "accept product received" , "accept product received" , 3));
 		  if (RaD) 
 		  {
-	  	      CONVERGE_RaD = lane.addElement(new Gateway( GatewayType.Parallel , "CONVERGE_RaD" , "CONVERGE_RaD"   , 3)); 			  
+//	  	      CONVERGE_RaD = lane.addElement(new Gateway( GatewayType.Parallel , "CONVERGE_RaD" , "CONVERGE_RaD"   , 3));
+	  	      CONVERGE_RaD = lane.addElement(new Gateway( GatewayType.Inclusive , "CONVERGE_RaD" , "CONVERGE_RaD"   , 3));
 		  }		  
 		  QName end1 = lane.addElement(new Event  ( EventType.TerminateAll, "end" , "end" , 3));
 

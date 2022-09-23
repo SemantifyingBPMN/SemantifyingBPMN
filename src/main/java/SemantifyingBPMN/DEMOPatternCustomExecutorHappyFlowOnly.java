@@ -8,7 +8,8 @@ public class DEMOPatternCustomExecutorHappyFlowOnly
 extends DEMOPattern{
 
 	
-	public Lane CreateElements_and_Sequence(Lane lane , TransactionKind tk, ArrayList<BPMNMessageFlow> MessageFlows , ArrayList<String> deps , PatternView view) {
+	public Lane CreateElements_and_Sequence(Lane lane , TransactionKind tk, ArrayList<BPMNMessageFlow> MessageFlows , ArrayList<String> deps , PatternView view, boolean isFirst) {
+		
 		
 		//13 elements
 		//  0       1        2           3           4             5           6              7            8             9          10        11           12
@@ -23,41 +24,55 @@ extends DEMOPattern{
 		
 		String PromiseDecisionLabel = view.getTKStepValue("Promise Decision");
 	    if ( PromiseDecisionLabel.compareTo("") != 0 )
-	    	bpmn_elements[1] = lane.addElement(new Activity  ( ActivityType.ManualTask, PromiseDecisionLabel , PromiseDecisionLabel , 1));
+	    	bpmn_elements[1] = lane.addElement(new Activity  ( ActivityType.ManualTask, PromiseDecisionLabel , "Promise Decision" , 1));
 	    
 	    String PromiseLabel = view.getTKStepValue("Promise");
 	    if ( PromiseLabel.compareTo("") != 0 )
-	    	bpmn_elements[2] = lane.addElement(new Activity( ActivityType.SendTask , PromiseLabel , PromiseLabel  , 1));
+	    	bpmn_elements[2] = lane.addElement(new Activity( ActivityType.SendTask , PromiseLabel , "Promise"  , 1));
 	 	    
 		if (RaP)
 		{
-			 bpmn_elements[3] = lane.addElement(new Gateway( GatewayType.Parallel , "DIVERGE_RaP" , "DIVERGE_RaP"   , 1));
-			 bpmn_elements[4] = lane.addElement(new Gateway( GatewayType.Parallel , "CONVERGE_RaP" , "CONVERGE_RaP"   , 1));
+//			 bpmn_elements[3] = lane.addElement(new Gateway( GatewayType.Parallel , "DIVERGE_RaP" , "DIVERGE_RaP"   , 1));
+//			 bpmn_elements[4] = lane.addElement(new Gateway( GatewayType.Parallel , "CONVERGE_RaP" , "CONVERGE_RaP"   , 1));
+// To give cardinality with 0..1 for each flow			 
+			 bpmn_elements[3] = lane.addElement(new Gateway( GatewayType.Inclusive , "DIVERGE_RaP" , "DIVERGE_RaP"   , 1));
+			 bpmn_elements[4] = lane.addElement(new Gateway( GatewayType.Inclusive , "CONVERGE_RaP" , "CONVERGE_RaP"   , 1));
+
 		}
 		
 		String ExecuteLabel = view.getTKStepValue("Execute");
 		if ( ExecuteLabel.compareTo("") != 0 )
-			bpmn_elements[5] = lane.addElement(new Activity  ( ActivityType.ManualTask, ExecuteLabel , ExecuteLabel , 1));
+			bpmn_elements[5] = lane.addElement(new Activity  ( ActivityType.ManualTask, ExecuteLabel , "Execute" , 1));
+		
 	    if (RaE)
 	    {
-	    	 bpmn_elements[6] = lane.addElement(new Gateway( GatewayType.Parallel , "DIVERGE_RaE" , "DIVERGE_RaE"   , 1));
-	    	 bpmn_elements[7] = lane.addElement(new Gateway( GatewayType.Parallel , "CONVERGE_RaE" , "CONVERGE_RaE"   , 1)); 
+//	    	 bpmn_elements[6] = lane.addElement(new Gateway( GatewayType.Parallel , "DIVERGE_RaE" , "DIVERGE_RaE"   , 1));
+//	    	 bpmn_elements[7] = lane.addElement(new Gateway( GatewayType.Parallel , "CONVERGE_RaE" , "CONVERGE_RaE"   , 1));
+	    	// To give cardinality with 0..1 for each flow			 	    	
+	    	 bpmn_elements[6] = lane.addElement(new Gateway( GatewayType.Inclusive , "DIVERGE_RaE" , "DIVERGE_RaE"   , 1));
+	    	 bpmn_elements[7] = lane.addElement(new Gateway( GatewayType.Inclusive , "CONVERGE_RaE" , "CONVERGE_RaE"   , 1)); 
+
 	    }
 	    
 		String DeclareLabel = view.getTKStepValue("Declare");
 		if ( DeclareLabel.compareTo("") != 0 )
-			bpmn_elements[8] = lane.addElement(new Activity( ActivityType.SendTask , DeclareLabel , DeclareLabel  , 1));
+			bpmn_elements[8] = lane.addElement(new Activity( ActivityType.SendTask , DeclareLabel , "Declare"  , 1));
+		
 		if (RaD)
-			bpmn_elements[9] = lane.addElement(new Gateway( GatewayType.Parallel , "DIVERGE_RaD" , "DIVERGE_RaD"   , 1));		
+			//bpmn_elements[9] = lane.addElement(new Gateway( GatewayType.Parallel , "DIVERGE_RaD" , "DIVERGE_RaD"   , 1));
+	    	// To give cardinality with 0..1 for each flow			 
+			bpmn_elements[9] = lane.addElement(new Gateway( GatewayType.Inclusive , "DIVERGE_RaD" , "DIVERGE_RaD"   , 1));		
 		
 	    String AcceptLabel = view.getTKStepValue("Accept");
 	    if ( AcceptLabel.compareTo("") != 0 )
 	    {
 	    	AcceptLabel += " received";
-	    	bpmn_elements[10] = lane.addElement(new Event  ( EventType.IntermediateMessageCatchEvent, AcceptLabel , AcceptLabel , 1));
+	    	bpmn_elements[10] = lane.addElement(new Event  ( EventType.IntermediateMessageCatchEvent, AcceptLabel , "Accept received" , 1));
 	    }
 		if (RaD) 
-			bpmn_elements[11] = lane.addElement(new Gateway( GatewayType.Parallel , "CONVERGE_RaD" , "CONVERGE_RaD"   , 1)); 			 
+			//bpmn_elements[11] = lane.addElement(new Gateway( GatewayType.Parallel , "CONVERGE_RaD" , "CONVERGE_RaD"   , 1));
+	    	// To give cardinality with 0..1 for each flow			 
+			bpmn_elements[11] = lane.addElement(new Gateway( GatewayType.Inclusive , "CONVERGE_RaD" , "CONVERGE_RaD"   , 1)); 			 
 
 		bpmn_elements[12] = lane.addElement(new Event  ( EventType.End, "END" , "END" , 1));
 

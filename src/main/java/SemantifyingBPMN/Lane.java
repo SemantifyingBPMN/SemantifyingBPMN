@@ -29,12 +29,42 @@ public class Lane {
 	public  double Width = 1200;
 	public  double Height = 200;
 	
-	public static double Height_per_level = 160; //180
+	public static double Height_per_level = 170; //180
 	
 	private int n_levels = 0;
 	
+	private double OffSet_X_Position_of_a_Lane = 25;
+	
+	
+	public double getOffSet_X_Position_of_a_Lane() {
+		return OffSet_X_Position_of_a_Lane;
+	}
+
+
+	public void setOffSet_X_Position_of_a_Lane(double OffSet_X_Position_of_a_Lane) {
+		this.OffSet_X_Position_of_a_Lane = OffSet_X_Position_of_a_Lane;
+	}
+
+
 	public int getN_levels() {
-		return n_levels;
+	//	return n_levels;
+		// Now returning the number of provisioned levels
+		
+		//how many levels?				
+		int max_absolute_level = 0;
+		int max_level = 0;
+		for (BPMNElement elem:getBPMNElements()) if (elem.getLevel() > max_absolute_level) max_absolute_level = elem.getLevel();
+		
+		for (int  l = 1 ; l <=  max_absolute_level ; l++)
+		{
+			boolean exists_in_level = false;
+			for (BPMNElement elem:getBPMNElements()) 
+				if (elem.getLevel() == l) exists_in_level = true;
+			
+			if (exists_in_level == true) max_level++;
+		}
+		
+		return (max_level);
 	}
 
 
@@ -122,13 +152,46 @@ public class Lane {
 	{
 		
 		
-		int level_max = 0;
+		int max_absolute_level = 0;
+		
+		for (BPMNElement elem:getBPMNElements()) if (elem.getLevel() > max_absolute_level) max_absolute_level = elem.getLevel();
+
+	
+		// compact top levels 
+			// for each level
+			for (int level_to_check = 1 ; level_to_check < max_absolute_level ; level_to_check++)
+			{
+				boolean is_there_any_element = false;
+				for (BPMNElement element:BPMNElements)	
+					if (element.getLevel() == level_to_check) is_there_any_element = true;
+					
+			
+					
+				// if not then compact
+				if ( is_there_any_element == false)
+				{
+					boolean anythingdone = false;
+					
+					for (BPMNElement element:BPMNElements)	
+						if (element.getLevel() > level_to_check ) 
+						{
+							element.DecrementLevel();
+							anythingdone = true;	
+						}
+
+					if (anythingdone) level_to_check--;
+					
+				}
+			}
+		
+
 		
 		for (BPMNElement element:BPMNElements)
 		{
 			if ( OrganizedBPMNElementByLevel.containsKey(element.getLevel()) == true)
 			{
 				OrganizedBPMNElementByLevel.get(element.getLevel()).add(element);
+
 			}
 			else
 			{
@@ -137,17 +200,16 @@ public class Lane {
 				OrganizedBPMNElementByLevel.put(element.getLevel() , new_element );
 			}
 			
-			if (level_max < element.getLevel()) level_max = element.getLevel();
+			if (max_absolute_level < element.getLevel()) max_absolute_level = element.getLevel();
 			
 		}
 
 		
-		System.out.println(getOrganizedBPMNElementByLevel().toString());
 		
 		// set number of level of this lane
 		//setN_levels(OrganizedBPMNElementByLevel.size());
 			// by level maximum due to optional provision of elements
-		setN_levels(level_max);
+		setN_levels(max_absolute_level);
 		
 	}
 	
@@ -308,6 +370,19 @@ public class Lane {
 		
 		if (Element2Remove != null) BPMNElements.remove(Element2Remove);
 		
+	}
+
+
+	public QName SearchQNameByString(String name_to_find) {
+
+		for (BPMNElement element_to_verify: BPMNElements)
+		{
+			if (element_to_verify.getDescription().compareTo(name_to_find) == 0 )
+				return (element_to_verify.getQname_BPMNElement());
+		}
+		
+		
+		return null;
 	}
 	
 	

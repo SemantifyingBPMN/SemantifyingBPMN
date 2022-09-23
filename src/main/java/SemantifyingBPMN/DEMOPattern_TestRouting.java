@@ -8,7 +8,7 @@ public class DEMOPattern_TestRouting
 extends DEMOPattern{
 
 		
-		public Lane CreateElements_and_Sequence(Lane lane , TransactionKind tk, ArrayList<BPMNMessageFlow> MessageFlows , ArrayList<String> deps , PatternView view ) {
+		public Lane CreateElements_and_Sequence(Lane lane , TransactionKind tk, ArrayList<BPMNMessageFlow> MessageFlows , ArrayList<String> deps , PatternView view , boolean isFirst) {
 			
 			
 			QName t1 = lane.addElement(new Activity( ActivityType.ManualTask , "T1" , "T1"  , 1));

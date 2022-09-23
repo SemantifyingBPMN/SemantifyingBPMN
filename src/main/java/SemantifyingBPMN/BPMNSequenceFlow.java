@@ -22,8 +22,16 @@ public class BPMNSequenceFlow {
 	
 	private double pos_X_End;
 	private double pos_Y_End;
+	
+	private boolean isExpression = false; 
 
 	
+	public boolean isExpression() {
+		return isExpression;
+	}
+	public void setExpression(boolean isExpression) {
+		this.isExpression = isExpression;
+	}
 	public double getPos_X_Start() { 		return pos_X_Start;	}
 	public void setPos_X_Start(double pos_X_Start) {		this.pos_X_Start = pos_X_Start;}
 	public double getPos_Y_Start() {		return pos_Y_Start;}
@@ -66,4 +74,14 @@ public class BPMNSequenceFlow {
 
 	}
 
+	public BPMNSequenceFlow(QName source , QName target, boolean haveExpression) {
+		super();
+		Init();
+		setSourceQName(source);
+		setTargetQName(target);
+		setExpression(haveExpression);
+
+	}
+
+	
 }

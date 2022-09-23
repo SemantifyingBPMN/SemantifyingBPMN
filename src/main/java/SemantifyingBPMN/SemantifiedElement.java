@@ -61,6 +61,17 @@ public class SemantifiedElement
 		referenced_semantified_elements.add(new_element);
 	}
 	
+	public boolean CheckReferenced_semantified_element(int index)
+	{		
+		
+		try {
+			referenced_semantified_elements.get( index );
+			return(true);
+		} catch ( IndexOutOfBoundsException e ) {
+			return (false);
+		}
+	}
+	
 	public Integer GetReferenced_semantified_element(int index)
 	{
 		return(referenced_semantified_elements.get(index));

@@ -7,9 +7,8 @@ import javax.xml.namespace.QName;
 public abstract class DEMOPattern {
 
 	  
-	  public abstract Lane CreateElements_and_Sequence(Lane lane , TransactionKind tk, ArrayList<BPMNMessageFlow> MessageFlows , ArrayList<String> deps , PatternView view);
-	  
-			
+	  public abstract Lane CreateElements_and_Sequence(Lane lane , TransactionKind tk, ArrayList<BPMNMessageFlow> MessageFlows , ArrayList<String> deps , PatternView view , boolean isFirst);
+	  	  		
 		
 	  
 	  protected Lane SpecifyIncoming_Outgoing(Lane lane_received)
@@ -45,14 +44,21 @@ public abstract class DEMOPattern {
 			   // check source to add as outgoing of BPMNElement in my lane
 			   id = seq.getSourceQName();
 			   for (BPMNElement elem:lane.getBPMNElements())
-				   	if (elem.getQname_BPMNElement() == id) elem.add_Flow_Outgoing(seq.getQName_Flowid());
+				   	if ( (elem.getQname_BPMNElement() == id) &&
+				   		  !elem.getQname_flow_Outgoing().contains(seq.getQName_Flowid())
+				   			) 
+				   		elem.add_Flow_Outgoing(seq.getQName_Flowid());
 			   
 					   // check target to add as incoming of BPMNElement in my lane
 			   id = seq.getTargetQName();
-			   for (BPMNElement elem:lane.getBPMNElements())
-				   	if (elem.getQname_BPMNElement() == id) elem.add_Flow_Incoming(seq.getQName_Flowid());				   		
+			   for (BPMNElement elem:lane.getBPMNElements())   					
+				   	if (elem.getQname_BPMNElement() == id &&
+						!elem.getQname_flow_Incoming().contains(seq.getQName_Flowid())				   	
+				   		) 
+						elem.add_Flow_Incoming(seq.getQName_Flowid());				   		
 		   }
 		 
+
 
 		   for(BPMNSequenceFlow seq:lane.getBPMNSequenceFlows())
 		   {
@@ -60,13 +66,19 @@ public abstract class DEMOPattern {
 			   // check source to add as outgoing of BPMNElement in other lane
 			   id = seq.getSourceQName();
 			   for (BPMNElement elem:other_lane.getBPMNElements())
-				   	if (elem.getQname_BPMNElement() == id) elem.add_Flow_Outgoing(seq.getQName_Flowid());
+				   	if (elem.getQname_BPMNElement() == id &&
+				   	    !elem.getQname_flow_Outgoing().contains(seq.getQName_Flowid())
+				   		) 
+				   		elem.add_Flow_Outgoing(seq.getQName_Flowid());
 			   
 					   // check target to add as incoming of BPMNElement in other lane
 			   id = seq.getTargetQName();
 			   for (BPMNElement elem:other_lane.getBPMNElements())
-				   	if (elem.getQname_BPMNElement() == id) elem.add_Flow_Incoming(seq.getQName_Flowid());				   		
+				   	if (elem.getQname_BPMNElement() == id &&
+				   		!elem.getQname_flow_Incoming().contains(seq.getQName_Flowid())
+				   			) elem.add_Flow_Incoming(seq.getQName_Flowid());				   		
 		   }
+		   
 		   
 		  return(lane);
 	  }

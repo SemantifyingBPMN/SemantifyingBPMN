@@ -24,24 +24,60 @@ public class Pool {
 
 
 	
-	public double Width = 1200;
+	public double Width = 1200; 
 	public double Height = 200;
 	
+	public double OffSet_X_Position_of_a_Pool = 1; 
 	
 	
-	
+	public double getOffSet_X_Position_of_a_Pool() {
+		return OffSet_X_Position_of_a_Pool;
+	}
+
+
+
+	public void setOffSet_X_Position_of_a_Pool(double offSet_X_Position_of_a_Pool) {
+		OffSet_X_Position_of_a_Pool = offSet_X_Position_of_a_Pool;
+	}
+
 	public void SpecifyDimensions()
 	{
 			// Calculate Height of Lanes and pool
 			double height_now = 0;			
-			for (Lane lane:Lanes)
+			/*for (Lane lane:Lanes)
 			{
 				// compute max level of Lane
 				int max_level = 0;
 				for (BPMNElement elem:lane.getBPMNElements()) if (elem.getLevel() > max_level) max_level = elem.getLevel();				
 				lane.setHeight(Lane.Height_per_level * max_level);										
 				height_now += lane.getHeight(); //for pool height dimension
+			}*/
+			
+			// Calculating only the levels that are provisioned
+			
+			for (Lane lane:Lanes)
+			{
+				// compute max level of Lane
+				//how many levels?				
+				int max_absolute_level = 0;
+				int max_level = 0;
+				for (BPMNElement elem:lane.getBPMNElements()) if (elem.getLevel() > max_absolute_level) max_absolute_level = elem.getLevel();
+				
+				for (int  l = 1 ; l <=  max_absolute_level ; l++)
+				{
+					boolean exists_in_level = false;
+					
+					for (BPMNElement elem:lane.getBPMNElements()) 
+						if (elem.getLevel() == l) exists_in_level = true;
+					
+					if (exists_in_level == true) max_level++;
+				}
+				
+				lane.setHeight(Lane.Height_per_level * max_level);										
+				height_now += lane.getHeight(); //for pool height dimension
 			}
+			
+			
 			setHeight(height_now);
 			
 			// Calculate Width of Lanes and pool
@@ -153,7 +189,9 @@ public class Pool {
 	}
 
 	public String getShortName() {
-		return Name.getName();
+		
+		if (Name == null) return(new String("System of interest"));
+		else return(Name.getName());
 	}
 	
 	public ActorRole getName() {
@@ -208,6 +246,9 @@ public class Pool {
 
 		Name = name;
 	}
+	
+
+	
 
 	public ArrayList<Lane> getLanes() {
 		return Lanes;

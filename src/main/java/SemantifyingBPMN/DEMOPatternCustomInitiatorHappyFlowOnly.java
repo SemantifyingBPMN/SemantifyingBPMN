@@ -8,7 +8,7 @@ public class DEMOPatternCustomInitiatorHappyFlowOnly
 extends DEMOPattern{
 
 	
-	public Lane CreateElements_and_Sequence(Lane lane , TransactionKind tk, ArrayList<BPMNMessageFlow> MessageFlows , ArrayList<String> deps , PatternView view) {
+	public Lane CreateElements_and_Sequence(Lane lane , TransactionKind tk, ArrayList<BPMNMessageFlow> MessageFlows , ArrayList<String> deps , PatternView view, boolean isFirst) {
 		
 
 		//define elements
@@ -16,41 +16,42 @@ extends DEMOPattern{
 		// strt , verify , request , evt promise , event declare , check produt , accept , end ;
 		QName[] bpmn_elements = {  null, null, null, null, null, null, null, null  };
 		
-		
-		bpmn_elements[0] = lane.addElement(new Event  ( EventType.Start, "INITIAL" , "INITIAL" , 1));
+		if (isFirst) bpmn_elements[0] = lane.addElement(new Event  ( EventType.Start, "INITIAL" , "INITIAL" , 1));
+		else bpmn_elements[0] = lane.addElement(new Event  ( EventType.IntermediateCatchEvent, "INITIAL" , "INITIAL" , 1)); 
+			
 		
 		String RequestDecisionLabel = view.getTKStepValue("Request Decision");
 	    if ( RequestDecisionLabel.compareTo("") != 0 )
-	    	bpmn_elements[1] = lane.addElement(new Activity  ( ActivityType.ManualTask, RequestDecisionLabel , RequestDecisionLabel , 1));
+	    	bpmn_elements[1] = lane.addElement(new Activity  ( ActivityType.ManualTask, RequestDecisionLabel , "Request Decision" , 1));
 	    
 	    String RequestLabel = view.getTKStepValue("Request");
 	    if ( RequestLabel.compareTo("") != 0 )
-	    	bpmn_elements[2] = lane.addElement(new Activity( ActivityType.SendTask , RequestLabel , RequestLabel  , 1));
+	    	bpmn_elements[2] = lane.addElement(new Activity( ActivityType.SendTask , RequestLabel , "Request"  , 1));
 	    
 	    
 	    String PromiseLabel = view.getTKStepValue("Promise");
 	    if ( PromiseLabel.compareTo("") != 0 )
 	    {
 	    	PromiseLabel += " received";
-	    	bpmn_elements[3] = lane.addElement(new Event  ( EventType.IntermediateMessageCatchEvent, PromiseLabel , PromiseLabel , 1));
+	    	bpmn_elements[3] = lane.addElement(new Event  ( EventType.IntermediateMessageCatchEvent, PromiseLabel , "Promise received" , 1));
 	    }
 		
 		String DeclareLabel = view.getTKStepValue("Declare");
 		if ( DeclareLabel.compareTo("") != 0 )
 		{
 			DeclareLabel += " received";
-			bpmn_elements[4] = lane.addElement(new Event  ( EventType.IntermediateMessageCatchEvent, DeclareLabel , DeclareLabel , 1));
+			bpmn_elements[4] = lane.addElement(new Event  ( EventType.IntermediateMessageCatchEvent, DeclareLabel , "Declare received" , 1));
 		}
 		
 		String AcceptDecisionLabel = view.getTKStepValue("Decision Accept");
 	    if ( AcceptDecisionLabel.compareTo("") != 0 )
-	    	bpmn_elements[5] = lane.addElement(new Activity  ( ActivityType.ManualTask, AcceptDecisionLabel , AcceptDecisionLabel , 1));
+	    	bpmn_elements[5] = lane.addElement(new Activity  ( ActivityType.ManualTask, AcceptDecisionLabel , "Decision Accept" , 1));
 	    
 	    String AcceptLabel = view.getTKStepValue("Accept");
 	    if ( AcceptLabel.compareTo("") != 0 )
-	    	bpmn_elements[6] = lane.addElement(new Activity( ActivityType.SendTask , AcceptLabel , AcceptLabel  , 1));
+	    	bpmn_elements[6] = lane.addElement(new Activity( ActivityType.SendTask , AcceptLabel , "Accept"  , 1));
 	    
-	    bpmn_elements[7] = lane.addElement(new Event  ( EventType.End, "END" , "END" , 1));
+	    if (isFirst) bpmn_elements[7] = lane.addElement(new Event  ( EventType.End, "END" , "END" , 1));
 
 	    
 	    // Connect elements
