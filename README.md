@@ -4,7 +4,7 @@ An experimental prototype.
 
 https://github.com/SemantifyingBPMN/SemantifyingBPMN/blob/main/Explanation-Movie/SemantifyingBPMN-intro.mp4
 
-Press play to see the video.
+Press the image to see the video.
 
 
 [![Watch the video](https://raw.githubusercontent.com/SemantifyingBPMN/SemantifyingBPMN/main/Explanation-Movie/thumbnail.jpg)](https://raw.githubusercontent.com/SemantifyingBPMN/SemantifyingBPMN/main/Explanation-Movie/SemantifyingBPMN-intro.mp4)
