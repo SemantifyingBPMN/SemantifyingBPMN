@@ -2,7 +2,7 @@
 A framework to semantify BPMN using DEMO business transaction pattern
 An experimental prototype.
 
-Explanation-Movie/SemantifyingBPMN-intro.mp4
+https://github.com/SemantifyingBPMN/SemantifyingBPMN/blob/main/Explanation-Movie/SemantifyingBPMN-intro.mp4
 
 Press play to see the video.
 
