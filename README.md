@@ -22,7 +22,7 @@ Then, to execute the semantify BPMN use the following command:
 The following options are available:
 ```
 The usage of SemantifyingBPMN is the following.
-SemantifyingBPMN-4.2.0 --actors <filename> --tpt <filename> --tkdepend <filename> --output-file-txt <filename> --output-file-bpmn <filename>
+SemantifyingBPMN-4.2.0 --actors <filename> --tpt <filename> --tkdepend <filename> --tkview <filename> --output-file-txt <filename> --output-file-bpmn <filename>
 Credits: Sérgio Guerreiro (2025) (github: https://github.com/SemantifyingBPMN/SemantifyingBPMN)
 
 where the parameters are,
@@ -63,7 +63,7 @@ where the parameters are,
 Command example:
 
 ``` 
-java -jar .\SemantifyingBPMN-4.2.0.jar --actors .\actorRoles-2021-01-18.txt --tpt .\tpt-2021-01-18.txt --tkdepend .\TKdependencies-2021-01-18.txt --output-file-bpmn collab.bpmn --tkview .\tkview-2021-01-18.txt
+java -jar SemantifyingBPMN-4.2.0.jar --actors actorRoles-2021-01-18.txt --tpt tpt-2021-01-18.txt --tkdepend TKdependencies-2021-01-18.txt --tkview tkview-2021-01-18.txt --output-file-bpmn collab.bpmn
 ```
 
 
