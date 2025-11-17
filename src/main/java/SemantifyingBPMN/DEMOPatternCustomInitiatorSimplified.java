@@ -42,7 +42,6 @@ extends DEMOPattern{
 
 		// Provision the full pattern with declinations and rejections in semantified_elements - BPMN elements and all flow
 		QName strt;
-		QName end3 = null;
 		if (isFirst) strt = lane.addElement(new Event  ( EventType.Start, "INITIAL" , "INITIAL" , 2));
 		else strt = lane.addElement(new Event  ( EventType.IntermediateCatchTimerEvent, "INITIAL" , "INITIAL" , 2) );	    
 	    QName act1 = lane.addElement(new Activity  ( ActivityType.UserTask, "Request Decision" , "Request Decision" , 2));
@@ -67,7 +66,9 @@ extends DEMOPattern{
 		    act4 = lane.addElement(new Activity( ActivityType.UserTask , "Accept" , "Accept"  , 1));
 	    else act4 = lane.addElementWithShift(new Activity( ActivityType.UserTask , "Accept" , "Accept"  , 1 ) , 0.4 );
 	    
+		QName end3 = null;
 	    if (isFirst) end3 = lane.addElement(new Event  ( EventType.End, "END" , "END" , 1));
+		else end3 = lane.addElement(new Event  ( EventType.IntermediateCatchEvent, "Intermediate_Accept" , "Intermediate_Accept" , 1));
 
 		semantified_elements.add( new SemantifiedElement( strt , "INITIAL" , true)  ); 
 		semantified_elements.add( new SemantifiedElement( act1 , "Request Decision")  );
@@ -97,7 +98,8 @@ extends DEMOPattern{
 			semantified_elements.add( new SemantifiedElement( gtw4 , "Is product OK?"  )  );
 		else semantified_elements.add( new SemantifiedElement( gtw4 , "Is product OK?" , true )  );
 
-		if (isFirst) semantified_elements.add( new SemantifiedElement( end3 , "END" , true )  );
+		//if (isFirst) 
+		semantified_elements.add( new SemantifiedElement( end3 , "END" , true )  );
 		
 	     // add all the flows to semantified elements		
 		AddFlow2SemantifiedElements(semantified_elements , strt , act1);		
@@ -109,7 +111,8 @@ extends DEMOPattern{
 		AddFlow2SemantifiedElements(semantified_elements , act3 , gtw4);
 		AddFlow2SemantifiedElements(semantified_elements , gtw4 , act4);
 		AddFlow2SemantifiedElements(semantified_elements , gtw4 , act5);
-		if (isFirst) AddFlow2SemantifiedElements(semantified_elements , act4 , end3);
+		//if (isFirst) 
+		AddFlow2SemantifiedElements(semantified_elements , act4 , end3);
 		
 		
 		// Provision the configured elements at CustomView in semantified_elements with boolean		
@@ -141,7 +144,7 @@ extends DEMOPattern{
 			if (semElem.isToConsider() == false) lane.removeElement(semElem.getSemantified_element());
 		
 		
-		System.out.println("Semantified Elements: " + semantified_elements.toString());
+	//	System.out.println("Semantified Elements: " + semantified_elements.toString());
 
 		
 		// Add flow to lane considering only the provisioned - Cycle
@@ -164,13 +167,11 @@ extends DEMOPattern{
 																	   semElemTarget.getSemantified_element() )	);
 							lastconsidered = targetIdx;
 							targetIdx = semantified_elements.size();
-							System.out.println("Flow added from: " + semElemSource.toString() + " to: " + semElemTarget.toString());
+							//System.out.println("Flow added from: " + semElemSource.toString() + " to: " + semElemTarget.toString());
 						}					
 						else
 						{
-							System.out.println("Choosing target: " + semElemTarget.toString() + "secondtry = " + secondtry + " Semantified Elements: " + semantified_elements.toString());
-							
-							
+							//System.out.println("Choosing target: " + semElemTarget.toString() + "secondtry = " + secondtry + " Semantified Elements: " + semantified_elements.toString());
 							
 							if ( secondtry == false && semElemTarget.getReferenced_semantified_elements().size() == 0 ) 
 							{
@@ -182,17 +183,18 @@ extends DEMOPattern{
 							{
 								if ( secondtry && ( semElemTarget.getReferenced_semantified_elements().size() > 1) )
 								{
-									System.out.println(" seecond try and > 1");
-										targetIdx = semElemTarget.GetReferenced_semantified_element(1);	// trying second path
-										secondtry = false;
+									//System.out.println(semElemTarget.toString() + ": seecond try and > 1 on Initiator");
+									targetIdx = semElemTarget.GetReferenced_semantified_element(1);	// trying second path
+									secondtry = false;
 								}
 								else if ( semElemTarget.CheckReferenced_semantified_element(0) )
 								{
-									System.out.println(" (seecond try and > 1) fail");
-										targetIdx = semElemTarget.GetReferenced_semantified_element(0);	// trying first path
+									//System.out.println(" (seecond try and > 1) fail on Initiator");
+									targetIdx = semElemTarget.GetReferenced_semantified_element(0);	// trying first path
 								}
 								else 
 								{
+									//targetIdx = semantified_elements.size();
 									break; // give-up													
 								}
 							}

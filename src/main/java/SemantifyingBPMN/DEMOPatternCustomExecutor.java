@@ -215,7 +215,7 @@ extends DEMOPattern{
 			if (semElem.isToConsider() == false) lane.removeElement(semElem.getSemantified_element());
 		
 		
-		System.out.println("Semantified Elements: " + semantified_elements.toString());
+	//	System.out.println("Semantified Elements: " + semantified_elements.toString());
 
 		
 		// Add flow to lane considering only the provisioned - Cycle
@@ -238,11 +238,11 @@ extends DEMOPattern{
 																	   semElemTarget.getSemantified_element() )	);
 							lastconsidered = targetIdx;
 							targetIdx = semantified_elements.size();
-							System.out.println("Flow added from: " + semElemSource.toString() + " to: " + semElemTarget.toString());
+							//System.out.println("Flow added from: " + semElemSource.toString() + " to: " + semElemTarget.toString());
 						}					
 						else
 						{
-							System.out.println("Choosing target: " + semElemTarget.toString());
+							//System.out.println("Choosing target: " + semElemTarget.toString());
 							if ( secondtry == false && semElemTarget.getReferenced_semantified_elements().size() == 0 ) 
 							{
 								//dead end -> end of search using first path

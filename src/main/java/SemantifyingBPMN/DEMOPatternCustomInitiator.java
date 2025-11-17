@@ -64,8 +64,9 @@ extends DEMOPattern{
 		QName gtw6 = lane.addElementWithShift(new Gateway( GatewayType.Eventbased, "Wait for Reject result" , "Wait for Reject result" , 3) , 0.4);
 		QName evt3 = lane.addElement(new Event  ( EventType.IntermediateMessageCatchEvent, "Declare received" , "Declare received" , 3));
 		QName evt4 = lane.addElementWithShift(new Event  ( EventType.IntermediateMessageCatchEvent, "Stop received" , "Stop received" , 4),0.4);
-	    QName end3 = lane.addElement(new Event  ( EventType.End, "END" , "END" , 4));
-		
+		QName end3;
+	    //if (isFirst) 
+		end3 = lane.addElement(new Event  ( EventType.End, "END" , "END" , 4));
 	    
 		semantified_elements.add( new SemantifiedElement( strt , "INITIAL" , true)  ); 
 		semantified_elements.add( new SemantifiedElement( act1 , "Request Decision")  );
@@ -94,14 +95,12 @@ extends DEMOPattern{
 		else semantified_elements.add( new SemantifiedElement( gtw4 , "Is product ok?"  )  );
 		 
 		QName end1 = null;
-		if (isFirst)
-		{
-		    end1 = lane.addElement(new Event  ( EventType.End, "END" , "END" , 2));
-			semantified_elements.add( new SemantifiedElement( end1 , "END" , true)  );
-		}
-
+		if (isFirst)	
+		    end1 = lane.addElement(new Event  ( EventType.End, "END" , "END" , 2));			
+		else end1 = lane.addElement(new Event  ( EventType.IntermediateCatchEvent, "Intermediate_Accept" , "Intermediate_Accept" , 2));
+		
+		semantified_elements.add( new SemantifiedElement( end1 , "END" , true)  );
 		semantified_elements.add( new SemantifiedElement( act4 , "Accept")  );
-
 		semantified_elements.add( new SemantifiedElement( act5 , "Reject")  );
 
 		if (view.getTKStepValue("Decline").compareTo("") != 0) 
@@ -160,7 +159,8 @@ extends DEMOPattern{
 		AddFlow2SemantifiedElements(semantified_elements ,act3 , gtw4);
 		AddFlow2SemantifiedElements(semantified_elements ,gtw4 , act4);
 		AddFlow2SemantifiedElements(semantified_elements ,gtw4 , act5);
-		if (isFirst) AddFlow2SemantifiedElements(semantified_elements ,act4 , end1);
+		//if (isFirst) 
+		AddFlow2SemantifiedElements(semantified_elements ,act4 , end1);
 		AddFlow2SemantifiedElements(semantified_elements ,act5 , gtw3);
 		AddFlow2SemantifiedElements(semantified_elements ,gtw2 , evt2);	    
 		AddFlow2SemantifiedElements(semantified_elements ,evt2 , act6);
@@ -197,7 +197,7 @@ extends DEMOPattern{
 			if (semElem.isToConsider() == false) lane.removeElement(semElem.getSemantified_element());
 		
 		
-		System.out.println("Semantified Elements: " + semantified_elements.toString());
+	//	System.out.println("Semantified Elements: " + semantified_elements.toString());
 
 		
 		// Add flow to lane considering only the provisioned - Cycle
@@ -220,11 +220,11 @@ extends DEMOPattern{
 																	   semElemTarget.getSemantified_element() )	);
 							lastconsidered = targetIdx;
 							targetIdx = semantified_elements.size();
-							System.out.println("Flow added from: " + semElemSource.toString() + " to: " + semElemTarget.toString());
+							//System.out.println("Flow added from: " + semElemSource.toString() + " to: " + semElemTarget.toString());
 						}					
 						else
 						{
-							System.out.println("Choosing target: " + semElemTarget.toString());
+							//System.out.println("Choosing target: " + semElemTarget.toString());
 							if ( secondtry == false && semElemTarget.getReferenced_semantified_elements().size() == 0 ) 
 							{
 								//dead end -> end of search using first path
@@ -238,7 +238,8 @@ extends DEMOPattern{
 										targetIdx = semElemTarget.GetReferenced_semantified_element(1);	// trying second path
 										secondtry = false;
 								}
-								else targetIdx = semElemTarget.GetReferenced_semantified_element(0);	// trying first path					
+								else if ( semElemTarget.getReferenced_semantified_elements().size() > 0   )
+									targetIdx = semElemTarget.GetReferenced_semantified_element(0);	// trying first path					
 							}
 						}
 					}					

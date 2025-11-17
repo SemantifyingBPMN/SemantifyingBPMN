@@ -203,14 +203,14 @@ public class SemantifyingBPMN {
 				}
 				else System.out.println("Empty line at " + count_line);		
 			}
-			System.out.println ("Reading input file ended. " + count_line + " lines read. With " + Actors.size() + " actor roles.");
+			//System.out.println ("Reading input file ended. " + count_line + " lines read. With " + Actors.size() + " actor roles.");
 			ficheiro.close();
 		}
 		catch (Exception e) 	{ 	e.printStackTrace(); 	}
-		System.out.println(	"-------------------*-----------------------------" +
+		/*System.out.println(	"-------------------*-----------------------------" +
 				" Actors \n" + Actors.toString() +
 				"\n-------------------*-----------------------------");
-		
+		*/
 		
 		
 		
@@ -277,12 +277,12 @@ public class SemantifyingBPMN {
 				}
 				else System.out.println("Empty line at " + count_line);		
 			}
-			System.out.println ("Reading input file ended. " + count_line + " lines read. With " + TPT.size() + " transaction kinds.");
+			//System.out.println ("Reading input file ended. " + count_line + " lines read. With " + TPT.size() + " transaction kinds.");
 			ficheiro.close();
 			ficheiroView.close();
 		}
 		catch (Exception e) 	{ 	e.printStackTrace(); 	}
-		System.out.println(	"-------------------*-----------------------------" +
+		/*System.out.println(	"-------------------*-----------------------------" +
 				" TPT \n" + TPT.toString() +
 				"\n-------------------*-----------------------------");
 	
@@ -290,7 +290,7 @@ public class SemantifyingBPMN {
 				" TKVIEW \n" + TKPatternViews.toString() +
 				"\n-------------------*-----------------------------");
 		
-		
+		*/
 		
 		try
 		{	
@@ -344,19 +344,19 @@ public class SemantifyingBPMN {
 					else System.out.println("Empty line at " + count_line);	
 				}
 				
-				System.out.println("ReadDataFromFiles: keys=" + keys +
+				/*System.out.println("ReadDataFromFiles: keys=" + keys +
 						" TKDependencies=" + TKDependencies.toString() +
 						" TKDependenciesT=" + TKDependenciesT.toString());
-
+					*/
 			}
-			System.out.println ("Reading input file ended. " + count_line + " lines read. With " + TKDependencies.size() + " Dependencies.");
+			//System.out.println ("Reading input file ended. " + count_line + " lines read. With " + TKDependencies.size() + " Dependencies.");
 			ficheiro.close();
 		}
 		catch (Exception e) 	{ 	e.printStackTrace(); 	}
-		System.out.println(	"-------------------*-----------------------------" +
+		/*System.out.println(	"-------------------*-----------------------------" +
 				" TKDependencies \n" + TKDependencies.toString() +
 				"\n-------------------*-----------------------------");
-
+			*/
 		
 		
 		
@@ -385,14 +385,14 @@ public class SemantifyingBPMN {
 				}
 				else System.out.println("Empty line at " + count_line);		
 			}
-			System.out.println ("Reading input file ended. " + count_line + " lines read. With " + BusinessObjects.size() + " business objects.");
+			//System.out.println ("Reading input file ended. " + count_line + " lines read. With " + BusinessObjects.size() + " business objects.");
 			ficheirobo.close();
 		}
 		catch (Exception e) 	{ 	e.printStackTrace(); 	}
-		System.out.println(	"-------------------*-----------------------------" +
+		/*System.out.println(	"-------------------*-----------------------------" +
 				" BusinessObjects \n" + BusinessObjects.toString() +
 				"\n-------------------*-----------------------------");
-		
+		*/
 		
 	}
 
@@ -712,7 +712,8 @@ public class SemantifyingBPMN {
 	 {
 		 QName out_e = SearchQName( laneE_tk , "DIVERGE_" + dependency );
 		 QName in_i  = SearchQName( laneI_tn , "INITIAL" );
-		 QName out_i = SearchQNamebyDescription( laneI_tn , "Accept");
+		 QName out_i = SearchQNamebyDescription( laneI_tn , "Intermediate_Accept");
+		 //QName out_i = SearchQNamebyDescription( laneI_tn , "Accept");
 		 QName in_e  = SearchQName( laneE_tk , "CONVERGE_" + dependency );
 		 		 
 		 laneE_tk.addSequenceFlow(new BPMNSequenceFlow( out_e , in_i ));
@@ -723,9 +724,9 @@ public class SemantifyingBPMN {
 		 laneE_tk = tmp.SpecifyIncoming_Outgoing_BetweenLanes(laneE_tk , laneI_tn);
 		 laneI_tn = tmp.SpecifyIncoming_Outgoing_BetweenLanes(laneI_tn , laneE_tk);
 		 
-		 System.out.println("connectDependencies: " + laneE_tk.getName() + " with " + laneI_tn.getName() + " on " + dependency);
-		 System.out.println("connectDependencies: elements =" + out_e + " -> " +  in_i);
-		 System.out.println("connectDependencies: and elements =" + out_i + " -> " + in_e);
+		// System.out.println("connectDependencies: " + laneE_tk.getName() + " with " + laneI_tn.getName() + " on " + dependency);
+		// System.out.println("connectDependencies: elements =" + out_e + " -> " +  in_i);
+		// System.out.println("connectDependencies: and elements =" + out_i + " -> " + in_e);
 	 }	
 		
 	
@@ -1507,7 +1508,7 @@ public class SemantifyingBPMN {
 			{
 				File file = new File( output_file_bpmn );
 				marshaller.marshal(element,file);
-				System.out.println("BPMN model SENT to: " + output_file_bpmn + " file!");
+				//System.out.println("BPMN model SENT to: " + output_file_bpmn + " file!");
 			}
 			//marshaller.marshal(element,System.out);
 			
@@ -1623,7 +1624,7 @@ private static BPMNEdge RoutingMessageFlow(BPMNEdge edge, BPMNMessageFlow mf, BP
 		double Offset = 60;
 		
 		
-		System.out.println(			
+		/*System.out.println(			
 				"<Routing_B> "
 				+ "Xi = " + Xi +
 				" Yi = " + Yi +
@@ -1638,7 +1639,7 @@ private static BPMNEdge RoutingMessageFlow(BPMNEdge edge, BPMNMessageFlow mf, BP
 				+ "S = " + NameElement(seq_toAdd.getSourceQName()) 
 				+ " T = " + NameElement(seq_toAdd.getTargetQName()) 
 				);
-		
+		*/
 		
 		
 		
@@ -1650,7 +1651,7 @@ private static BPMNEdge RoutingMessageFlow(BPMNEdge edge, BPMNMessageFlow mf, BP
 	 		 X1 =  Xi;	 Y1 = Yi;
 	 		 X2 =  Xf; 	 Y2 = Yf;
 	 		 Xf =  Xf ;  Yf = Yf ;
-	 		 System.out.println("Routing: Quadrant 1");
+	 	//	 System.out.println("Routing: Quadrant 1");
 	 	 }
 	 	 else if ( DeltaX > 0 && DeltaY < AcceptedDelta) // Quadrant 2
 	 	 {
@@ -1659,7 +1660,7 @@ private static BPMNEdge RoutingMessageFlow(BPMNEdge edge, BPMNMessageFlow mf, BP
 	 		X1 = Xi ;  Y1 = Yi - (Offset-15);
 	 		X2 = Xf + (WidthElement_f / 2) ;  Y2 = Y1 ;
 	 		Xf = Xf + (WidthElement_f / 2) ;  Yf = Yf + (HeightElement_f / 2);
-	 		 System.out.println("Routing: Quadrant 2");
+	 	//	 System.out.println("Routing: Quadrant 2");
 
 	 	 }
 	 	 else if ( Math.abs(DeltaX) <= AcceptedDelta && DeltaY < 0 ) // Quadrant 3
@@ -1668,7 +1669,7 @@ private static BPMNEdge RoutingMessageFlow(BPMNEdge edge, BPMNMessageFlow mf, BP
 	 		X1 = Xi;  Y1 = Yi;
 	 		X2 = Xi;  Y2 = Yi;
 	 		Xf = Xf + (WidthElement_f / 2) ;  Yf = Yf + (HeightElement_f / 2);
-	 		 System.out.println("Routing: Quadrant 3");
+	 	//	 System.out.println("Routing: Quadrant 3");
 
 	 	 }
 	 	 else if ( DeltaX < AcceptedDelta && DeltaY < 0 ) // Quadrant 4
@@ -1678,7 +1679,7 @@ private static BPMNEdge RoutingMessageFlow(BPMNEdge edge, BPMNMessageFlow mf, BP
 	 		X1 = Xi ;  Y1 = Yi - (Offset+5);
 	 		X2 = Xf + (WidthElement_f / 2) ;  Y2 = Y1;
 	 		Xf = X2 ;  Yf = Yf + (HeightElement_f / 2);
-	 		System.out.println("Routing: Quadrant 4");
+	 	//	System.out.println("Routing: Quadrant 4");
 
 	 	 }
 	 /*	 else if ( DeltaY <= AcceptedDelta && DeltaX < 0 ) // Quadrant 5
@@ -1696,7 +1697,7 @@ private static BPMNEdge RoutingMessageFlow(BPMNEdge edge, BPMNMessageFlow mf, BP
 	 		 X1 =  Xi;	 Y1 = Yi;
 	 		 X2 =  Xi; 	 Y2 = Yf;
 	 		 Xf =  Xf + WidthElement_f;  Yf = Yf;
-	 		 System.out.println("Routing: Quadrant 5");
+	 	//	 System.out.println("Routing: Quadrant 5");
 
 	 	 }
 	 	 else if ( DeltaX < 0 &&  Math.abs(DeltaX) > AcceptedDelta && DeltaY > 0 ) // Quadrant 6
@@ -1706,7 +1707,7 @@ private static BPMNEdge RoutingMessageFlow(BPMNEdge edge, BPMNMessageFlow mf, BP
 	 		X1 = Xi;  Y1 = Yi + (Offset+10);
 	 		X2 = Xf + (WidthElement_f / 2) ;  Y2 = Y1;
 	 		Xf = X2 ;  Yf = Yf - (HeightElement_f / 2);
-	 		 System.out.println("Routing: Quadrant 6");
+	 	//	 System.out.println("Routing: Quadrant 6");
 
 	 	 }
 	 	 else if ( Math.abs(DeltaX) <= AcceptedDelta && DeltaY > 0 ) // Quadrant 7
@@ -1715,7 +1716,7 @@ private static BPMNEdge RoutingMessageFlow(BPMNEdge edge, BPMNMessageFlow mf, BP
 	 		X1 = Xi;  Y1 = Yi;
 	 		X2 = Xi;  Y2 = Yi;
 	 		Xf = Xf + (WidthElement_f / 2) ;  Yf = Yf - (HeightElement_f / 2);
-	 		 System.out.println("Routing: Quadrant 7");
+	 	//	 System.out.println("Routing: Quadrant 7");
 
 	 	 }
 	 	 else if ( DeltaX > 0 && DeltaY > AcceptedDelta ) // Quadrant 8
@@ -1725,7 +1726,7 @@ private static BPMNEdge RoutingMessageFlow(BPMNEdge edge, BPMNMessageFlow mf, BP
 		 	X1 = Xi ;  Y1 = Yi + (Offset+15);
 	 		X2 = Xf + (WidthElement_f / 2);  Y2 = Y1;
 	 		Xf = X2 ;  Yf = Yf - (HeightElement_f / 2);
-	 		 System.out.println("Routing: Quadrant 8");
+	 	//	 System.out.println("Routing: Quadrant 8");
 
 	 	 }
 	 	 
@@ -1742,7 +1743,7 @@ private static BPMNEdge RoutingMessageFlow(BPMNEdge edge, BPMNMessageFlow mf, BP
 	 	 point_f.setX(Xf); point_f.setY(Yf);		 
 	 	 edge_return.getWaypoint().add(point_f);
 	
-			System.out.println(			
+		/*	System.out.println(			
 					"<Routing_A> Xi = " + Xi +
 					" Yi = " + Yi +
 					" Xf = " + Xf +
@@ -1754,7 +1755,7 @@ private static BPMNEdge RoutingMessageFlow(BPMNEdge edge, BPMNMessageFlow mf, BP
 					" DeltaX = " + DeltaX+ 
 					" DeltaY = " + DeltaY
 					);
-	 	 
+	 	 */
 		return(edge_return);
 	}
 	
@@ -1817,7 +1818,7 @@ private static BPMNEdge RoutingMessageFlow(BPMNEdge edge, BPMNMessageFlow mf, BP
 
 	private static void CheckArguments()
 	{
-		System.out.println("--actors=" + actors_filename + "\n" +
+		/*System.out.println("--actors=" + actors_filename + "\n" +
 						   "--tpt=" + tpt_filename + "\n" +
 						   "--tkdepend=" + tkdepend_filename + "\n" +
 						   "--tkview=" + tkview_filename + "\n" +
@@ -1825,7 +1826,7 @@ private static BPMNEdge RoutingMessageFlow(BPMNEdge edge, BPMNMessageFlow mf, BP
 						   "--output-file-bpmn=" +  output_file_bpmn + "\n" +
 						   "--simplify=" + simplify +
 						   "--engine camunda=" + camundaEngine +
-						   "--businessObjects" + businessObjects_filename);
+						   "--businessObjects" + businessObjects_filename);*/
 	}
 	
 	private static boolean VerifyArgs(String[] cabecalho)
@@ -1884,7 +1885,7 @@ private static BPMNEdge RoutingMessageFlow(BPMNEdge edge, BPMNMessageFlow mf, BP
 	
 	private static String LoadBPMNXMLWithDiagramData( String toAdd , String filenameInput , String filenameOutput) 
 	{	
-		System.out.println("Writing BPMN XML inside Diagram Data Starting...");
+		//System.out.println("Writing BPMN XML inside Diagram Data Starting...");
 		String ProcessName_return = null;
 		try
 		{
@@ -1924,7 +1925,7 @@ private static BPMNEdge RoutingMessageFlow(BPMNEdge edge, BPMNMessageFlow mf, BP
 	                StreamResult result = new StreamResult(new File(filenameOutput));
 	                transformer.transform(source, result);
 	            } 
-	    		System.out.println("Writing BPMN XML inside Diagram Data Finished.");
+	    		//System.out.println("Writing BPMN XML inside Diagram Data Finished.");
 			}
 			else System.out.println("XML not produced correctly.");
 			
@@ -1941,7 +1942,7 @@ private static BPMNEdge RoutingMessageFlow(BPMNEdge edge, BPMNMessageFlow mf, BP
 	
 	private static void Write2File(String resultBPMN, String filename_path) 
 	{
-		System.out.println("Writing plain BPMN XML to output file Starting...");
+		//System.out.println("Writing plain BPMN XML to output file Starting...");
 		File BPMNfile = new File(filename_path);
     	FileWriter writer;
 
@@ -1949,10 +1950,10 @@ private static BPMNEdge RoutingMessageFlow(BPMNEdge edge, BPMNMessageFlow mf, BP
 		{	writer = new FileWriter(BPMNfile);
 			writer.write( resultBPMN );
 			writer.close();
-			System.out.println("Writing plain BPMN XML to output file Finished.");
+			//System.out.println("Writing plain BPMN XML to output file Finished.");
 		} catch (IOException e) 
 		{
-			System.out.println("Error Writing .BPMN file to local storage" + e.toString());
+			//System.out.println("Error Writing .BPMN file to local storage" + e.toString());
 		}
 	}
 	
@@ -1964,7 +1965,7 @@ private static BPMNEdge RoutingMessageFlow(BPMNEdge edge, BPMNMessageFlow mf, BP
 	
 	private static void LoadTransactionsWithTransactionData( String ProcessName , String TK_XML_Out, String TK_Act_XML_Out)
 	{
-		System.out.println("Writing XML inside Transaction and Transaction_Act Starting...");
+		//System.out.println("Writing XML inside Transaction and Transaction_Act Starting...");
 		
 		 try {
 				if (ProcessName != null)
@@ -1997,7 +1998,7 @@ private static BPMNEdge RoutingMessageFlow(BPMNEdge edge, BPMNMessageFlow mf, BP
 						TKName_to_appear = tk.getName() + ": From (" + tk.getInitiatorRole().getName() + ")" +
 														  " to (" + tk.getExecutorRole().getName() + ")"; 
 						
-						System.out.println("Name: " + ProcessName + "»" + TKName_to_appear);
+						//System.out.println("Name: " + ProcessName + "»" + TKName_to_appear);
 			            PropsAndValues2.appendChild(NewElement(document , "Name", new String(ProcessName + "»" + TKName_to_appear )  ));
 			            PropsAndValues2.appendChild(NewElement(document , "Business_x0020_Process" , ProcessName));
 
@@ -2024,15 +2025,15 @@ private static BPMNEdge RoutingMessageFlow(BPMNEdge edge, BPMNMessageFlow mf, BP
 					            PropsAndValues2.appendChild(NewElement(document , "InvokedTransactions", InvokedTransactions));
 							}
 						}
-						System.out.println();
+						//System.out.println();
 						
-						System.out.println("ActorExecutor: " + tk.getExecutorRole().getName());
-						System.out.println("ActorInitiator: " + tk.getInitiatorRole().getName());
+						//System.out.println("ActorExecutor: " + tk.getExecutorRole().getName());
+						//.out.println("ActorInitiator: " + tk.getInitiatorRole().getName());
 						PropsAndValues2.appendChild(NewElement(document , "Transaction_x0020_Executor", tk.getExecutorRole().getName()));
 			            PropsAndValues2.appendChild(NewElement(document , "Transaction_x0020_Initiator", tk.getInitiatorRole().getName()));
 						
 						
-						System.out.print("Allocated_Transaction_Acts:");
+						//System.out.print("Allocated_Transaction_Acts:");
 						
 						for ( PatternView  tkview:TKPatternViews)
 						{
@@ -2059,7 +2060,7 @@ private static BPMNEdge RoutingMessageFlow(BPMNEdge edge, BPMNMessageFlow mf, BP
 							}
 						}
 						
-						System.out.println("");
+						//System.out.println("");
 						
 			            //create elements
 			            PropsAndValues2.appendChild(NewElement(document , "Description", ""));
@@ -2092,7 +2093,7 @@ private static BPMNEdge RoutingMessageFlow(BPMNEdge edge, BPMNMessageFlow mf, BP
 			
 			
 			
-			System.out.println("Now for the Transaction_act.....");
+			//System.out.println("Now for the Transaction_act.....");
 			
 			try
 			{
@@ -2123,9 +2124,9 @@ private static BPMNEdge RoutingMessageFlow(BPMNEdge edge, BPMNMessageFlow mf, BP
 							if ( tkview_stepname.compareTo("") != 0 )
 							{
 								Element PropsAndValues2 = document.createElement("PropsAndValues");
-								System.out.println("Name : " + tkview_stepname);
-								System.out.println("Classification_Transaction_Act : " + tkview.Translate2Atlas(key));
-								System.out.println("Equilavent_Task_Name: " + tkview_stepname);
+								//System.out.println("Name : " + tkview_stepname);
+								//System.out.println("Classification_Transaction_Act : " + tkview.Translate2Atlas(key));
+								//System.out.println("Equilavent_Task_Name: " + tkview_stepname);
 								PropsAndValues2.appendChild(NewElement(document , "Name", tkview_stepname));
 					            PropsAndValues2.appendChild(NewElement(document , "Classification_Transaction_Act", tkview.Translate2Atlas(key)));								
 					            PropsAndValues2.appendChild(NewElement(document , "Equilavent_Task_Name",tkview_stepname));
@@ -2152,13 +2153,13 @@ private static BPMNEdge RoutingMessageFlow(BPMNEdge edge, BPMNMessageFlow mf, BP
 			
 			
 		
-		System.out.println("Writing XML inside Transaction and Transaction_Act Finished.");		
+		//System.out.println("Writing XML inside Transaction and Transaction_Act Finished.");		
 	}
 
 
 	private static ArrayList<PatternView> CreateEnhancedTKView(String TK_Act_XML_In, String TK_XML_In , String view_target) 
 	{
-		System.out.println("Create Enhanced TKView Starting....");
+		//System.out.println("Create Enhanced TKView Starting....");
 		HashMap<String,String> tx_acts = new HashMap<String,String>();
 		ArrayList<PatternView> pattern_to_return = new ArrayList<PatternView>(); 
 		
@@ -2184,7 +2185,7 @@ private static BPMNEdge RoutingMessageFlow(BPMNEdge edge, BPMNMessageFlow mf, BP
 		            String Name = tElement.getElementsByTagName("Name").item(0).getTextContent();
 		            
 		            String classification = tElement.getElementsByTagName("Classification_Transaction_Act").item(0).getTextContent();
-		            System.out.println("Read from XML, Name = " + Name + ", Classification = " + classification);
+		            //System.out.println("Read from XML, Name = " + Name + ", Classification = " + classification);
 		            classification = tk_tmpPatternView.Translate2SemantifyingBPMN(classification);
 		            tx_acts.put(Name, classification);
 		        } 
@@ -2192,7 +2193,7 @@ private static BPMNEdge RoutingMessageFlow(BPMNEdge edge, BPMNMessageFlow mf, BP
 		}
 		catch (Exception exc)	{  System.out.println(exc.toString()); 	}
         
-        System.out.println("TX_ACTS = " + tx_acts);
+        //System.out.println("TX_ACTS = " + tx_acts);
         
 		// Read TK_XML_In and store in pattern_to_return
 		try
@@ -2220,33 +2221,33 @@ private static BPMNEdge RoutingMessageFlow(BPMNEdge edge, BPMNMessageFlow mf, BP
 		        { 
 		            Element tElement = (Element)node;
 		            String Name = tElement.getElementsByTagName("Name").item(0).getTextContent();
-		            System.out.println("Name = " + Name);
+		           // System.out.println("Name = " + Name);
 		            //Extract TK
 					String[] tokens = Name.split("»");	
 		           // String[] tokens = Name.split("_");
-		            System.out.println("Tokens = " + tokens);
+		            //System.out.println("Tokens = " + tokens);
 		            String tk_Name_full = tokens[1].trim();
 		            
-		            System.out.println("tk_name_full before extracting = " + tk_Name_full);
+		            //System.out.println("tk_name_full before extracting = " + tk_Name_full);
 		            
 		            // To extract the single name of the transaction without the details of the actors
 					String[] tokenstk = tk_Name_full.split(":");	
 					String tk_Name = tokenstk[0].trim();
 		            
-					System.out.println("tk_name after extracting = " + tk_Name);
+					//System.out.println("tk_name after extracting = " + tk_Name);
 		            
 		        	PatternView new_Patterview = new PatternView(tk_Name , view_target);
 		        	
-		        	System.out.println("PatternView =" + new_Patterview.toString());
+		        	//System.out.println("PatternView =" + new_Patterview.toString());
 		        	
 		            String Allocated_Transaction_Acts = tElement.getElementsByTagName("Allocated_Transaction_Acts").item(0).getTextContent();
-		            System.out.println("Allocated_Transaction_Acts = " + Allocated_Transaction_Acts);
+		           // System.out.println("Allocated_Transaction_Acts = " + Allocated_Transaction_Acts);
 		            
 					String[] tokens2 = Allocated_Transaction_Acts.split("\n");
-					System.out.println("Tokens2 = " + tokens2);
+					//System.out.println("Tokens2 = " + tokens2);
 					for (int indice = 0 ; indice < tokens2.length ; indice++)
 					{
-						System.out.println("For TK = " + tk_Name + ", with view = " + view_target + ", allocated_transaction_act = " + tokens2[indice]);
+						//System.out.println("For TK = " + tk_Name + ", with view = " + view_target + ", allocated_transaction_act = " + tokens2[indice]);
 						new_Patterview.addTKStep( tx_acts.get(tokens2[indice]), tokens2[indice]);
 					}
 										
@@ -2256,9 +2257,9 @@ private static BPMNEdge RoutingMessageFlow(BPMNEdge edge, BPMNMessageFlow mf, BP
 		}
 		catch (Exception exc)	{  System.out.println(exc.toString()); 	}
 
-        System.out.println("List of new pattern view created = " + pattern_to_return);
+       // System.out.println("List of new pattern view created = " + pattern_to_return);
 		
-		System.out.println("Create Enhanced TKView Finished.");
+		//System.out.println("Create Enhanced TKView Finished.");
 		return pattern_to_return;
 	}
 
@@ -2288,8 +2289,8 @@ private static BPMNEdge RoutingMessageFlow(BPMNEdge edge, BPMNMessageFlow mf, BP
 
 			
 			String usage = "The usage of SemantifyingBPMN is the following.\n" +  
-					"SemantifyingBPMN-4.0.1 --actors <filename> --tpt <filename> --tkdepend <filename> --output-file-txt <filename> --output-file-bpmn <filename>\n"
-					+ "Credits: Sérgio Guerreiro (2022) (github: https://github.com/SemantifyingBPMN/SemantifyingBPMN)\n"
+					"SemantifyingBPMN-4.2.0 --actors <filename> --tpt <filename> --tkdepend <filename> --output-file-txt <filename> --output-file-bpmn <filename>\n"
+					+ "Credits: Sérgio Guerreiro (2025) (github: https://github.com/SemantifyingBPMN/SemantifyingBPMN)\n"
 					+ "\n"	
 					+"where the parameters are,\n"
 					+"--actors: is a csv file with the list of actor roles and is mandatory. Composed of 2 fields, in each line, with actor role name and description:\n"
@@ -2334,9 +2335,9 @@ private static BPMNEdge RoutingMessageFlow(BPMNEdge edge, BPMNMessageFlow mf, BP
 			{
 				if (VerifyArgs(args))
 				{		
-					System.out.println ("The following arguments are accepted:");
+					//System.out.println ("The following arguments are accepted:");
 					CheckArguments();
-					System.out.println ("------- Processing starting -------");
+					//System.out.println ("------- Processing starting -------");
 		
 					Init();
 					
@@ -2358,7 +2359,7 @@ private static BPMNEdge RoutingMessageFlow(BPMNEdge edge, BPMNMessageFlow mf, BP
 					if (output_file_txt != null)  ProduceBPMN2TXT(Pools);
 					
 				
-					System.out.println ("------- Processing stopping -------");
+					//System.out.println ("------- Processing stopping -------");
 				}
 				else System.out.println("Application Arguments bad usage.\n\nPlease check syntax.\n\n" + usage);
 			}

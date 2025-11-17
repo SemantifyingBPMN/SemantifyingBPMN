@@ -108,8 +108,8 @@ public class Pool {
 			setWidth( (max_elements_level_pool + 5) * (Activity.Width + (Activity.distance_between_activities - Activity.Width)) );
 		
 			
-			for (Lane lane:Lanes) System.out.println("Lane size, width= " + lane.getWidth() + ", Height = " + lane.getHeight());
-			System.out.println("Pool size, width= " + getWidth() + ", Height = " + getHeight());
+			/*for (Lane lane:Lanes) System.out.println("Lane size, width= " + lane.getWidth() + ", Height = " + lane.getHeight());
+			System.out.println("Pool size, width= " + getWidth() + ", Height = " + getHeight());*/
 	}
 	
 	

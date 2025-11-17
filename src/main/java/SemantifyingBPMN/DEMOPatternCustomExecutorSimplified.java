@@ -189,7 +189,7 @@ extends DEMOPattern{
 			if (semElem.isToConsider() == false) lane.removeElement(semElem.getSemantified_element());
 		
 		
-		System.out.println("Semantified Elements: " + semantified_elements.toString());
+	//	System.out.println("Semantified Elements: " + semantified_elements.toString());
 
 		
 		// Add flow to lane considering only the provisioned - Cycle
@@ -212,11 +212,11 @@ extends DEMOPattern{
 																	   semElemTarget.getSemantified_element() )	);
 							lastconsidered = targetIdx;
 							targetIdx = semantified_elements.size();
-							System.out.println("Flow added from: " + semElemSource.toString() + " to: " + semElemTarget.toString());
+							//System.out.println("Flow added from: " + semElemSource.toString() + " to: " + semElemTarget.toString());
 						}					
 						else
 						{
-							System.out.println("Choosing target: " + semElemTarget.toString());
+							//System.out.println("Choosing target: " + semElemTarget.toString());
 							if ( secondtry == false && semElemTarget.getReferenced_semantified_elements().size() == 0 ) 
 							{
 								//dead end -> end of search using first path
@@ -227,12 +227,21 @@ extends DEMOPattern{
 							{
 								if ( secondtry && ( semElemTarget.getReferenced_semantified_elements().size() > 1) )
 								{
+									//System.out.println(" seecond try and > 1 on Executor");
+
 										targetIdx = semElemTarget.GetReferenced_semantified_element(1);	// trying second path
 										secondtry = false;
 								}
 								else if ( semElemTarget.CheckReferenced_semantified_element(0) )
+								{
+									//System.out.println(" (seecond try and > 1) fail on Executor");
+
 									targetIdx = semElemTarget.GetReferenced_semantified_element(0);	// trying first path
-								else break; // give-up													
+								}
+								else
+								{
+									break; // give-up													
+								} 
 							}
 						}
 					}					

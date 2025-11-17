@@ -52,6 +52,7 @@ extends DEMOPattern{
 	    	bpmn_elements[6] = lane.addElement(new Activity( ActivityType.SendTask , AcceptLabel , "Accept"  , 1));
 	    
 	    if (isFirst) bpmn_elements[7] = lane.addElement(new Event  ( EventType.End, "END" , "END" , 1));
+	    else bpmn_elements[7] = lane.addElement(new Event  ( EventType.IntermediateCatchEvent, "Intermediate_Accept" , "Intermediate_Accept" , 1));
 
 	    
 	    // Connect elements

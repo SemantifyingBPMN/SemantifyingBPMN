@@ -18,7 +18,7 @@ extends DEMOPattern{
 		
 		
 		if (isFirst) bpmn_elements[0] = lane.addElement(new Event  ( EventType.Start, "INITIAL" , "INITIAL" , 1));
-		else bpmn_elements[0] = lane.addElement(new Event  ( EventType.IntermediateCatchTimerEvent, "INITIAL" , "INITIAL" , 1));
+		else bpmn_elements[0] = lane.addElement(new Event  ( EventType.IntermediateCatchEvent, "INITIAL" , "INITIAL" , 1));
 		
 		String RequestDecisionLabel = view.getTKStepValue("Request Decision");
 	    if ( RequestDecisionLabel.compareTo("") != 0 )
@@ -37,7 +37,6 @@ extends DEMOPattern{
 	    	bpmn_elements[4] = lane.addElement(new Activity( ActivityType.UserTask , AcceptLabel , "Accept"  , 1));
 	    
 	    if (isFirst) bpmn_elements[5] = lane.addElement(new Event  ( EventType.End, "END" , "END" , 1));	
-	    //else bpmn_elements[5] = lane.addElement(new Event  ( EventType.IntermediateCatchEvent, "END" , "END" , 1));
 	    
 	    
 	    // Connect elements
